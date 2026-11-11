@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Commeti Vault</title>
+<style>
+  :root {
+    --bg: #0b0d13;
+    --card: #12151e;
+    --card-hover: #181c28;
+    --border: rgba(212, 175, 55, 0.22);
+    --border-soft: rgba(255, 255, 255, 0.08);
+    --gold: #d4af37;
+    --gold-light: #f3e5ab;
+    --gold-dim: rgba(212, 175, 55, 0.12);
+    --emerald: #10b981;
+    --emerald-dim: rgba(16, 185, 129, 0.14);
+    --danger: #ef4444;
+    --text: #f3f4f6;
+    --muted: #9ca3af;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 48px;
+  }
+  .container {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0 18px;
+    border-bottom: 1px solid var(--border-soft);
+    margin-bottom: 20px;
+  }
+  .brand-title {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--gold-light);
+  }
+  .brand-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .badge-sync {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 11px;
+    border-radius: 999px;
+    background: var(--gold-dim);
+    color: var(--gold);
+    border: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--emerald);
+    box-shadow: 0 0 8px var(--emerald);
+  }
+  .section-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .gateway-card {
+    background: linear-gradient(145deg, #151926 0%, #0e111a 100%);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px 20px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .gateway-card:active {
+    transform: scale(0.98);
+  }
+  .gateway-heading {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+  }
+  .gateway-sub {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .gateway-meta {
+    margin-top: 12px;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: var(--gold-dim);
+    color: var(--gold);
+    border: 1px solid var(--border);
+  }
+  .gateway-arrow {
+    font-size: 24px;
+    color: var(--gold);
+    font-weight: 800;
+    margin-left: 14px;
+  }
+  .commeti-card {
+    background: linear-gradient(145deg, #141824 0%, #0f121a 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 14px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .commeti-card:active {
+    transform: scale(0.985);
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+  }
+  .card-pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--gold-dim);
+    color: var(--gold);
+    border: 1px solid var(--border);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.28);
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .stat-val {
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 2px;
+    color: var(--text);
+  }
+  .stat-val.gold { color: var(--gold); }
+  .stat-val.emerald { color: var(--emerald); }
+  .progress-wrap {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--emerald));
+    transition: width 0.3s ease;
+  }
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border-soft);
+    background: var(--card);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, #d4af37, #b58922);
+    color: #0b0d13;
+    border: none;
+    font-weight: 700;
+  }
+  .btn-emerald {
+    background: var(--emerald-dim);
+    color: var(--emerald);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: var(--card);
+    border: 1px solid var(--border-soft);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 14px;
+  }
+  .month-bar {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+    scrollbar-width: none;
+  }
+  .month-bar::-webkit-scrollbar { display: none; }
+  .month-chip {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    background: var(--card);
+    border: 1px solid var(--border-soft);
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .month-chip.active {
+    background: var(--gold-dim);
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  .member-item {
+    background: var(--card);
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .member-item.paid {
+    border-color: rgba(16, 185, 129, 0.28);
+    background: rgba(16, 185, 129, 0.04);
+  }
+  .member-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+  }
+  .check-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    border: 2px solid var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 800;
+  }
+  .member-item.paid .check-circle {
+    background: var(--emerald);
+    border-color: var(--emerald);
+    color: #06281e;
+  }
+  .member-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .member-item.paid .member-name {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+  .member-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .member-meta {
+    font-size: 11px;
+    color: var(--emerald);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .wa-btn {
+    padding: 7px 10px;
+    border-radius: 9px;
+    background: var(--emerald-dim);
+    color: var(--emerald);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 999;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: #141824;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--gold-light);
+    margin-bottom: 4px;
+  }
+  .modal-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .field-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: block;
+    font-weight: 600;
+  }
+  .input {
+    width: 100%;
+    padding: 11px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-soft);
+    background: #0b0d13;
+    color: var(--text);
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+  .method-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .method-btn {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border-soft);
+    background: #0b0d13;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+  }
+  .method-btn.active {
+    background: var(--gold-dim);
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  .ss-preview {
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-top: 8px;
+    border: 1px solid var(--border-soft);
+    display: none;
+  }
+  .empty-box {
+    background: var(--card);
+    border: 1px dashed var(--border);
+    border-radius: 16px;
+    padding: 28px 18px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .hidden { display: none !important; }
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1f2937;
+    color: #fff;
+    border: 1px solid var(--gold);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    display: none;
+    z-index: 2000;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <div>
+      <div class="brand-title">Commeti Vault</div>
+      <div class="brand-sub">Houd's Ledger • Due 10th of Month</div>
+    </div>
+    <div class="badge-sync" onclick="openSyncModal()">
+      <span class="dot"></span>
+      <span>Cloud & Backup</span>
+    </div>
+  </div>
+
+  <!-- VIEW 0: FIRST INTERFACE (LEADING vs PARTICIPATING) -->
+  <div id="homeView">
+    <div class="section-label">Choose Mode</div>
+
+    <div class="gateway-card" onclick="openCategory('LEADING')">
+      <div>
+        <div class="gateway-heading">LEADING</div>
+        <div class="gateway-sub">Committees you organize, manage payouts for, and collect monthly installments.</div>
+        <div class="gateway-meta" id="leadingMetaBadge">2 Active Committees</div>
+      </div>
+      <div class="gateway-arrow">→</div>
+    </div>
+
+    <div class="gateway-card" onclick="openCategory('PARTICIPATING')">
+      <div>
+        <div class="gateway-heading">PARTICIPATING</div>
+        <div class="gateway-sub">Committees run by others where you pay your monthly share and track your payout turn.</div>
+        <div class="gateway-meta" id="participatingMetaBadge">Track Your Shares</div>
+      </div>
+      <div class="gateway-arrow">→</div>
+    </div>
+
+    <div class="section-label" style="margin-top: 24px;">Data & Backup</div>
+    <div class="btn-row">
+      <button class="btn" onclick="exportBackup()">Export Backup</button>
+      <button class="btn" onclick="document.getElementById('importFile').click()">Restore Backup</button>
+      <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBackup(event)">
+    </div>
+  </div>
+
+  <!-- VIEW 1: CATEGORY LIST (LEADING OR PARTICIPATING) -->
+  <div id="categoryView" class="hidden">
+    <button class="back-btn" onclick="showHome()">← Home (LEADING / PARTICIPATING)</button>
+    <div class="section-label" id="categoryTitle">LEADING</div>
+    <div id="cardsContainer"></div>
+  </div>
+
+  <!-- VIEW 2: COMMITTEE DETAIL -->
+  <div id="detailView" class="hidden">
+    <button class="back-btn" id="detailBackBtn" onclick="backToCategory()">← Back</button>
+    <div id="detailHeader"></div>
+    <div class="month-bar" id="monthBar"></div>
+    <div class="section-label" id="listHeaderLabel">Members & Collections</div>
+    <div id="membersList"></div>
+    <div class="btn-row" id="detailFooterBtns">
+      <button class="btn btn-emerald" onclick="copyWhatsAppReport()">Copy WhatsApp Status</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: RECORD PAYMENT -->
+<div class="modal-backdrop" id="payModal">
+  <div class="modal">
+    <div class="modal-title" id="payModalTitle">Record Payment</div>
+    <div class="modal-sub" id="payModalSub">Verify date, method, and screenshot</div>
+
+    <label class="field-label">Date Paid</label>
+    <input type="date" id="payDate" class="input">
+
+    <label class="field-label">Payment Method</label>
+    <div class="method-grid">
+      <div class="method-btn active" onclick="selectMethod('Bank / Raast', this)">Bank / Raast</div>
+      <div class="method-btn" onclick="selectMethod('Cash', this)">Cash</div>
+      <div class="method-btn" onclick="selectMethod('NayaPay / SadaPay', this)">NayaPay / SadaPay</div>
+      <div class="method-btn" onclick="selectMethod('JazzCash / EasyPaisa', this)">JazzCash / EasyPaisa</div>
+    </div>
+
+    <div id="digitalFields">
+      <label class="field-label">Transaction ID / Reference Note (Optional)</label>
+      <input type="text" id="payNote" class="input" placeholder="e.g. Meezan RAAST #9481">
+
+      <label class="field-label">Upload Screenshot Proof</label>
+      <input type="file" id="payFile" accept="image/*" class="input" onchange="handleScreenshot(event)">
+      <img id="payPreview" class="ss-preview">
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="savePayment(false)">Save Verified</button>
+      <button class="btn" onclick="savePayment(true)">Skip Proof</button>
+    </div>
+    <div class="btn-row" style="margin-top:8px;">
+      <button class="btn" onclick="closePayModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: VIEW RECEIPT -->
+<div class="modal-backdrop" id="receiptModal">
+  <div class="modal">
+    <div class="modal-title" id="recTitle">Payment Receipt</div>
+    <div class="modal-sub" id="recSub">Verified Entry</div>
+    <div id="recBody" style="font-size:13px; line-height:1.7; color:var(--text); margin-bottom:12px;"></div>
+    <img id="recImg" class="ss-preview" style="max-height:300px;">
+    <div class="btn-row" style="margin-top:14px;">
+      <button class="btn" style="color:var(--danger); border-color:rgba(239,68,68,0.3);" onclick="undoPayment()">Undo / Mark Unpaid</button>
+      <button class="btn btn-gold" onclick="closeReceiptModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: CLOUD SYNC -->
+<div class="modal-backdrop" id="syncModal">
+  <div class="modal">
+    <div class="modal-title">Cloud Sync & Transfer</div>
+    <div class="modal-sub">Keep your phone and PC in sync</div>
+    <p style="font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:12px;">
+      All changes and screenshots save automatically on this device. To sync live across devices, paste your Firebase Realtime DB URL below or use Export/Restore Backup.
+    </p>
+    <label class="field-label">Cloud Endpoint (Optional Firebase Realtime DB URL)</label>
+    <input type="text" id="cloudUrlInput" class="input" placeholder="https://your-project-default-rtdb.firebaseio.com">
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="saveCloudConfig()">Save & Sync Now</button>
+      <button class="btn" onclick="closeSyncModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Saved!</div>
+
+<script>
+const STORAGE_KEY = 'houd_commeti_v4';
+const CLOUD_URL_KEY = 'houd_commeti_cloud_url';
+
+const defaultData = {
+  A1K: {
+    id: 'A1K',
+    role: 'LEADING',
+    name: 'Committee A1K',
+    sharePrice: 1000,
+    totalShares: 15,
+    totalMonths: 15,
+    currentMonth: 2,
+    potValue: 15000,
+    recipients: {
+      1: 'You (Turn 1)',
+      2: 'You (Turn 2)',
+      3: 'Ammar'
+    },
+    members: [
+      { id: 'khubaib', name: 'Khubaib', contact: 'Hamda Chachi', phone: '03312206012', shares: 1, due: 1000 },
+      { id: 'self_a1k', name: 'You (Self)', contact: 'Internal Share', phone: '', shares: 3, due: 3000 },
+      { id: 'ayesha', name: 'Ayesha', contact: 'Portable Noise Pollution', phone: '+923222986165', shares: 2, due: 2000 },
+      { id: 'kulsoom', name: 'Kulsoom', contact: 'Mini Migraine', phone: '+923149542418', shares: 2, due: 2000 },
+      { id: 'zainab', name: 'Zainab', contact: '24/7 Customer Complain', phone: '03202098967', shares: 1, due: 1000 },
+      { id: 'ammar', name: 'Ammar', contact: 'Niqqa Man (Next Turn)', phone: '+923313052434', shares: 3, due: 3000 },
+      { id: 'abdullah_a1k', name: 'Abdullah', contact: 'Abdullah 2', phone: '+923366165907', shares: 3, due: 3000 }
+    ],
+    records: {
+      2: {
+        khubaib: { paid: true, date: '2026-10-10', method: 'Advance', note: 'Cleared in advance last month', ss: '' },
+        self_a1k: { paid: true, date: '2026-11-01', method: 'Internal Retention', note: 'Your Turn (Month 2)', ss: '' }
+      }
+    }
+  },
+  A25K: {
+    id: 'A25K',
+    role: 'LEADING',
+    name: 'Committee A25K',
+    sharePrice: 25000,
+    totalShares: 4,
+    totalMonths: 4,
+    currentMonth: 2,
+    potValue: 100000,
+    recipients: {
+      1: 'You',
+      2: 'Abdullah (ARP)',
+      3: 'Amaan',
+      4: 'Naila Phopho'
+    },
+    members: [
+      { id: 'self_a25k', name: 'You (Self)', contact: 'Organizer Share', phone: '', shares: 1, due: 25000 },
+      { id: 'abdullah_a25k', name: 'Abdullah (ARP)', contact: 'Abdullah 2', phone: '+923366165907', shares: 1, due: 25000 },
+      { id: 'amaan', name: 'Amaan', contact: 'Amaan', phone: '+923302765469', shares: 1, due: 25000 },
+      { id: 'naila', name: 'Naila Phopho', contact: 'Paracha', phone: '+971521677454', shares: 1, due: 25000 }
+    ],
+    records: {
+      2: {
+        self_a25k: { paid: true, date: '2026-11-01', method: 'Allocated', note: 'Ready for payout pool', ss: '' },
+        abdullah_a25k: { paid: true, date: '2026-11-01', method: 'Internal Offset', note: 'Deducted from his Rs. 100k draw', ss: '' }
+      }
+    }
+  }
+};
+
+let state = loadState();
+let activeCategory = 'LEADING';
+let activeCommeti = null;
+let activeMember = null;
+let selectedMethod = 'Bank / Raast';
+let tempScreenshot = '';
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('houd_commeti_v3');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      Object.keys(parsed).forEach(k => {
+        if (!parsed[k].role) parsed[k].role = 'LEADING';
+      });
+      return parsed;
+    }
+  } catch (e) {}
+  return JSON.parse(JSON.stringify(defaultData));
+}
+
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  updateHomeBadges();
+  pushToCloud();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 2200);
+}
+
+function updateHomeBadges() {
+  const allKeys = Object.keys(state);
+  const leadCount = allKeys.filter(k => (state[k].role || 'LEADING') === 'LEADING').length;
+  const partCount = allKeys.filter(k => state[k].role === 'PARTICIPATING').length;
+  document.getElementById('leadingMetaBadge').textContent = `${leadCount} Active Committee${leadCount === 1 ? '' : 's'}`;
+  document.getElementById('participatingMetaBadge').textContent = partCount > 0 ? `${partCount} Active Committee${partCount === 1 ? '' : 's'}` : 'Ready for Setup';
+}
+
+function showHome() {
+  activeCommeti = null;
+  document.getElementById('categoryView').classList.add('hidden');
+  document.getElementById('detailView').classList.add('hidden');
+  document.getElementById('homeView').classList.remove('hidden');
+  updateHomeBadges();
+}
+
+function openCategory(role) {
+  activeCategory = role;
+  document.getElementById('homeView').classList.add('hidden');
+  document.getElementById('detailView').classList.add('hidden');
+  document.getElementById('categoryView').classList.remove('hidden');
+  document.getElementById('categoryTitle').textContent = role;
+  renderCategoryCards();
+}
+
+function backToCategory() {
+  openCategory(activeCategory);
+}
+
+function getMonthStats(cId, month) {
+  const c = state[cId];
+  const mRec = c.records[month] || {};
+  let collected = 0;
+  c.members.forEach(m => {
+    if (mRec[m.id] && mRec[m.id].paid) collected += m.due;
+  });
+  return {
+    collected,
+    pending: c.potValue - collected,
+    percent: Math.round((collected / c.potValue) * 100)
+  };
+}
+
+function renderCategoryCards() {
+  const container = document.getElementById('cardsContainer');
+  container.innerHTML = '';
+  const keys = Object.keys(state).filter(k => (state[k].role || 'LEADING') === activeCategory);
+
+  if (keys.length === 0) {
+    container.innerHTML = `
+      <div class="empty-box">
+        <div style="font-size:15px; font-weight:700; color:var(--gold-light); margin-bottom:6px;">No ${activeCategory} Committees Yet</div>
+        Share your Participating committee details in Gemini chat and they will appear right here!
+      </div>
+    `;
+    return;
+  }
+
+  keys.forEach(cId => {
+    const c = state[cId];
+    const m = c.currentMonth;
+    const stats = getMonthStats(cId, m);
+    const recipient = c.recipients[m] || 'TBD';
+    const card = document.createElement('div');
+    card.className = 'commeti-card';
+    card.onclick = () => openCommeti(cId);
+    card.innerHTML = `
+      <div class="card-header">
+        <div>
+          <div class="card-title">${c.name}</div>
+          <div style="font-size:12px; color:var(--muted); margin-top:2px;">Rs. ${c.sharePrice.toLocaleString()} / share • ${c.totalShares} shares</div>
+        </div>
+        <div class="card-pill">Month ${m} of ${c.totalMonths}</div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-label">Total Pot</div>
+          <div class="stat-val gold">Rs. ${c.potValue.toLocaleString()}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Collected</div>
+          <div class="stat-val emerald">Rs. ${stats.collected.toLocaleString()}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Pending</div>
+          <div class="stat-val">Rs. ${stats.pending.toLocaleString()}</div>
+        </div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar" style="width:${stats.percent}%"></div>
+      </div>
+      <div class="card-footer">
+        <span>Recipient: <b style="color:var(--gold-light)">${recipient}</b></span>
+        <span>Tap to Open →</span>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function openCommeti(cId) {
+  activeCommeti = cId;
+  document.getElementById('categoryView').classList.add('hidden');
+  document.getElementById('detailView').classList.remove('hidden');
+  document.getElementById('detailBackBtn').textContent = `← Back to ${activeCategory}`;
+  renderDetail();
+}
+
+function renderDetail() {
+  const c = state[activeCommeti];
+  const m = c.currentMonth;
+  const stats = getMonthStats(activeCommeti, m);
+  const recipient = c.recipients[m] || 'Set Recipient';
+
+  document.getElementById('detailHeader').innerHTML = `
+    <div class="commeti-card" style="cursor:default;">
+      <div class="card-header">
+        <div>
+          <div class="card-title">${c.name} — Month ${m}</div>
+          <div style="font-size:12px; color:var(--muted); margin-top:2px;">Payout Recipient: <b style="color:var(--gold)">${recipient}</b></div>
+        </div>
+        <div class="card-pill">${stats.percent}% Cleared</div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-label">Pot Value</div>
+          <div class="stat-val gold">Rs. ${c.potValue.toLocaleString()}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Ready</div>
+          <div class="stat-val emerald">Rs. ${stats.collected.toLocaleString()}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Remaining</div>
+          <div class="stat-val">Rs. ${stats.pending.toLocaleString()}</div>
+        </div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar" style="width:${stats.percent}%"></div>
+      </div>
+    </div>
+  `;
+
+  const mb = document.getElementById('monthBar');
+  mb.innerHTML = '';
+  for (let i = 1; i <= c.totalMonths; i++) {
+    const chip = document.createElement('div');
+    chip.className = 'month-chip' + (i === m ? ' active' : '');
+    chip.textContent = 'Month ' + i;
+    chip.onclick = () => {
+      c.currentMonth = i;
+      saveState();
+      renderDetail();
+    };
+    mb.appendChild(chip);
+  }
+
+  const list = document.getElementById('membersList');
+  list.innerHTML = '';
+  const mRec = c.records[m] || {};
+
+  c.members.forEach(mem => {
+    const rec = mRec[mem.id];
+    const isPaid = rec && rec.paid;
+    const row = document.createElement('div');
+    row.className = 'member-item' + (isPaid ? ' paid' : '');
+    row.onclick = () => {
+      if (isPaid) openReceiptModal(mem.id);
+      else openPayModal(mem.id);
+    };
+
+    let metaHtml = '';
+    if (isPaid) {
+      metaHtml = `<div class="member-meta">✓ ${rec.method || 'Cleared'} • ${rec.date || ''} ${rec.ss ? '• 📷 SS' : ''}</div>`;
+    }
+
+    let waBtnHtml = '';
+    if (!isPaid && mem.phone && c.role === 'LEADING') {
+      waBtnHtml = `<button class="wa-btn" onclick="sendWhatsApp(event, '${mem.name}', '${mem.phone}', ${mem.due}, '${c.name}', ${m})">Remind</button>`;
+    }
+
+    row.innerHTML = `
+      <div class="member-left">
+        <div class="check-circle">${isPaid ? '✓' : ''}</div>
+        <div>
+          <div class="member-name">${mem.name}: Rs. ${mem.due.toLocaleString()}</div>
+          <div class="member-sub">${mem.contact} ${mem.phone ? '(' + mem.phone + ')' : ''}</div>
+          ${metaHtml}
+        </div>
+      </div>
+      <div class="member-right">
+        ${waBtnHtml}
+      </div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function sendWhatsApp(e, name, phone, due, cName, month) {
+  e.stopPropagation();
+  const cleanPhone = phone.replace(/[^0-9]/g, '');
+  const intlPhone = cleanPhone.startsWith('0') ? '92' + cleanPhone.slice(1) : cleanPhone;
+  const text = `Salam ${name}, friendly reminder for ${cName} (Month ${month}): Rs. ${due.toLocaleString()} is due by the 10th. Please send the screenshot once transferred!`;
+  window.open(`https://wa.me/${intlPhone}?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function openPayModal(memberId) {
+  activeMember = memberId;
+  const c = state[activeCommeti];
+  const mem = c.members.find(x => x.id === memberId);
+  document.getElementById('payModalTitle').textContent = `${mem.name} — Rs. ${mem.due.toLocaleString()}`;
+  document.getElementById('payModalSub').textContent = `${c.name} • Month ${c.currentMonth}`;
+  document.getElementById('payDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('payNote').value = '';
+  document.getElementById('payFile').value = '';
+  document.getElementById('payPreview').style.display = 'none';
+  tempScreenshot = '';
+  document.getElementById('payModal').classList.add('open');
+}
+
+function closePayModal() {
+  document.getElementById('payModal').classList.remove('open');
+}
+
+function selectMethod(method, el) {
+  selectedMethod = method;
+  document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  const dig = document.getElementById('digitalFields');
+  if (method === 'Cash') dig.classList.add('hidden');
+  else dig.classList.remove('hidden');
+}
+
+function handleScreenshot(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const maxW = 700;
+      const scale = img.width > maxW ? maxW / img.width : 1;
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      tempScreenshot = canvas.toDataURL('image/jpeg', 0.65);
+      const prev = document.getElementById('payPreview');
+      prev.src = tempScreenshot;
+      prev.style.display = 'block';
+    };
+    img.src = evt.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function savePayment(skipProof) {
+  const c = state[activeCommeti];
+  const m = c.currentMonth;
+  if (!c.records[m]) c.records[m] = {};
+  c.records[m][activeMember] = {
+    paid: true,
+    date: document.getElementById('payDate').value || new Date().toISOString().split('T')[0],
+    method: skipProof ? 'Quick Clear' : selectedMethod,
+    note: skipProof ? 'Cleared without proof' : document.getElementById('payNote').value,
+    ss: skipProof ? '' : tempScreenshot
+  };
+  saveState();
+  closePayModal();
+  renderDetail();
+  showToast('Payment Marked Paid!');
+}
+
+function openReceiptModal(memberId) {
+  activeMember = memberId;
+  const c = state[activeCommeti];
+  const m = c.currentMonth;
+  const mem = c.members.find(x => x.id === memberId);
+  const rec = c.records[m][memberId];
+  document.getElementById('recTitle').textContent = `${mem.name} — Rs. ${mem.due.toLocaleString()}`;
+  document.getElementById('recSub').textContent = `${c.name} • Month ${m}`;
+  document.getElementById('recBody').innerHTML = `
+    <div><b>Status:</b> Paid / Cleared</div>
+    <div><b>Date:</b> ${rec.date || 'N/A'}</div>
+    <div><b>Method:</b> ${rec.method || 'N/A'}</div>
+    <div><b>Note:</b> ${rec.note || 'None'}</div>
+  `;
+  const img = document.getElementById('recImg');
+  if (rec.ss) {
+    img.src = rec.ss;
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
+  }
+  document.getElementById('receiptModal').classList.add('open');
+}
+
+function closeReceiptModal() {
+  document.getElementById('receiptModal').classList.remove('open');
+}
+
+function undoPayment() {
+  const c = state[activeCommeti];
+  const m = c.currentMonth;
+  if (c.records[m] && c.records[m][activeMember]) {
+    delete c.records[m][activeMember];
+    saveState();
+  }
+  closeReceiptModal();
+  renderDetail();
+  showToast('Marked Unpaid');
+}
+
+function copyWhatsAppReport() {
+  const c = state[activeCommeti];
+  const m = c.currentMonth;
+  const stats = getMonthStats(activeCommeti, m);
+  const mRec = c.records[m] || {};
+  let lines = [`*${c.name} — Month ${m} Status*`, `Pot: Rs. ${c.potValue.toLocaleString()} | Recipient: ${c.recipients[m] || 'TBD'}`, ''];
+  c.members.forEach(mem => {
+    const isPaid = mRec[mem.id] && mRec[mem.id].paid;
+    lines.push(`${isPaid ? '✅' : '⏳'} ${mem.name}: Rs. ${mem.due.toLocaleString()} (${isPaid ? 'Paid' : 'Pending'})`);
+  });
+  lines.push('', `Collected: Rs. ${stats.collected.toLocaleString()} | Pending: Rs. ${stats.pending.toLocaleString()}`);
+  navigator.clipboard.writeText(lines.join('\n'));
+  showToast('WhatsApp Report Copied!');
+}
+
+function exportBackup() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `commeti_backup_${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  showToast('Backup Downloaded!');
+}
+
+function importBackup(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    try {
+      const parsed = JSON.parse(evt.target.result);
+      if (parsed.A1K) {
+        state = parsed;
+        saveState();
+        updateHomeBadges();
+        showToast('Backup Restored!');
+      }
+    } catch (err) {
+      alert('Invalid backup file');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function openSyncModal() {
+  document.getElementById('cloudUrlInput').value = localStorage.getItem(CLOUD_URL_KEY) || '';
+  document.getElementById('syncModal').classList.add('open');
+}
+function closeSyncModal() {
+  document.getElementById('syncModal').classList.remove('open');
+}
+async function saveCloudConfig() {
+  const url = document.getElementById('cloudUrlInput').value.trim().replace(/\/$/, '');
+  localStorage.setItem(CLOUD_URL_KEY, url);
+  closeSyncModal();
+  await pullFromCloud();
+  await pushToCloud();
+  showToast('Cloud Sync Updated!');
+}
+
+async function pushToCloud() {
+  const url = localStorage.getItem(CLOUD_URL_KEY);
+  if (!url) return;
+  try {
+    await fetch(url + '/commeti_vault.json', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ updatedAt: Date.now(), state })
+    });
+  } catch (e) {}
+}
+
+async function pullFromCloud() {
+  const url = localStorage.getItem(CLOUD_URL_KEY);
+  if (!url) return;
+  try {
+    const res = await fetch(url + '/commeti_vault.json');
+    const data = await res.json();
+    if (data && data.state && data.state.A1K) {
+      state = data.state;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      updateHomeBadges();
+      if (activeCommeti) renderDetail();
+    }
+  } catch (e) {}
+}
+
+updateHomeBadges();
+pullFromCloud();
+</script>
+</body>
+</html>
