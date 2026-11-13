@@ -1,8 +1,10 @@
 <!DOCTYPE html>
+<!-- Commeti Vault Encrypted Build v5.1 (PIN: 6-digit) -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow, noarchive">
 <title>Commeti Vault</title>
 <style>
   :root {
@@ -38,6 +40,115 @@
     margin: 0 auto;
     padding: 16px;
   }
+  /* LOCK SCREEN */
+  .lock-screen {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top, #161b29 0%, #0b0d13 70%);
+    z-index: 5000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .lock-card {
+    width: 100%;
+    max-width: 360px;
+    background: rgba(18, 21, 30, 0.9);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 28px 22px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  }
+  .lock-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    background: var(--gold-dim);
+    border: 1px solid var(--border);
+    color: var(--gold);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 14px;
+  }
+  .lock-title {
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+  }
+  .lock-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 22px;
+  }
+  .pin-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .pin-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: transparent;
+    transition: all 0.15s ease;
+  }
+  .pin-dot.filled {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  }
+  .pin-dot.error {
+    background: var(--danger);
+    border-color: var(--danger);
+  }
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .key-btn {
+    height: 56px;
+    border-radius: 14px;
+    border: 1px solid var(--border-soft);
+    background: #151925;
+    color: var(--text);
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    transition: transform 0.1s ease, background 0.15s ease;
+  }
+  .key-btn:active {
+    transform: scale(0.95);
+    background: var(--gold-dim);
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+  .key-btn.action {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .lock-err-msg {
+    font-size: 12px;
+    color: var(--danger);
+    min-height: 18px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  /* APP UI */
   .topbar {
     display: flex;
     justify-content: space-between;
@@ -57,6 +168,11 @@
     color: var(--muted);
     margin-top: 2px;
   }
+  .top-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
   .badge-sync {
     display: inline-flex;
     align-items: center;
@@ -68,6 +184,16 @@
     background: var(--gold-dim);
     color: var(--gold);
     border: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .lock-now-btn {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-soft);
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
     cursor: pointer;
   }
   .dot {
@@ -446,20 +572,57 @@
     font-size: 13px;
     font-weight: 600;
     display: none;
-    z-index: 2000;
+    z-index: 6000;
   }
 </style>
 </head>
 <body>
-<div class="container">
+
+<!-- ENCRYPTED PIN LOCK SCREEN -->
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-card">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-title">Commeti Vault</div>
+    <div class="lock-sub">Enter your 6-digit PIN to decrypt ledger</div>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+      <div class="pin-dot"></div>
+    </div>
+    <div class="lock-err-msg" id="lockErr"></div>
+    <div class="keypad">
+      <div class="key-btn" onclick="pressPin('1')">1</div>
+      <div class="key-btn" onclick="pressPin('2')">2</div>
+      <div class="key-btn" onclick="pressPin('3')">3</div>
+      <div class="key-btn" onclick="pressPin('4')">4</div>
+      <div class="key-btn" onclick="pressPin('5')">5</div>
+      <div class="key-btn" onclick="pressPin('6')">6</div>
+      <div class="key-btn" onclick="pressPin('7')">7</div>
+      <div class="key-btn" onclick="pressPin('8')">8</div>
+      <div class="key-btn" onclick="pressPin('9')">9</div>
+      <div class="key-btn action" onclick="clearPin()">Clear</div>
+      <div class="key-btn" onclick="pressPin('0')">0</div>
+      <div class="key-btn action" onclick="backPin()">⌫</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP CONTAINER (HIDDEN UNTIL DECRYPTED) -->
+<div class="container hidden" id="appContainer">
   <div class="topbar">
     <div>
       <div class="brand-title">Commeti Vault</div>
-      <div class="brand-sub">Houd's Ledger • Due 10th of Month</div>
+      <div class="brand-sub">Encrypted Ledger • Due 10th of Month</div>
     </div>
-    <div class="badge-sync" onclick="openSyncModal()">
-      <span class="dot"></span>
-      <span>Cloud & Backup</span>
+    <div class="top-actions">
+      <button class="lock-now-btn" onclick="lockVault()">🔒 Lock</button>
+      <div class="badge-sync" onclick="openSyncModal()">
+        <span class="dot"></span>
+        <span>Cloud</span>
+      </div>
     </div>
   </div>
 
@@ -485,8 +648,9 @@
       <div class="gateway-arrow">→</div>
     </div>
 
-    <div class="section-label" style="margin-top: 24px;">Data & Backup</div>
+    <div class="section-label" style="margin-top: 24px;">Security & Backup</div>
     <div class="btn-row">
+      <button class="btn" onclick="togglePhoneMask()" id="maskToggleBtn">Numbers: Masked</button>
       <button class="btn" onclick="exportBackup()">Export Backup</button>
       <button class="btn" onclick="document.getElementById('importFile').click()">Restore Backup</button>
       <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBackup(event)">
@@ -566,10 +730,10 @@
 <!-- MODAL: CLOUD SYNC -->
 <div class="modal-backdrop" id="syncModal">
   <div class="modal">
-    <div class="modal-title">Cloud Sync & Transfer</div>
-    <div class="modal-sub">Keep your phone and PC in sync</div>
+    <div class="modal-title">Encrypted Cloud Sync</div>
+    <div class="modal-sub">Sync encrypted ciphertext across your Phone & PC</div>
     <p style="font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:12px;">
-      All changes and screenshots save automatically on this device. To sync live across devices, paste your Firebase Realtime DB URL below or use Export/Restore Backup.
+      All records are encrypted with your 6-digit PIN before saving to your device or cloud. Even in the cloud, your data remains unreadable without your PIN.
     </p>
     <label class="field-label">Cloud Endpoint (Optional Firebase Realtime DB URL)</label>
     <input type="text" id="cloudUrlInput" class="input" placeholder="https://your-project-default-rtdb.firebaseio.com">
@@ -583,95 +747,261 @@
 <div class="toast" id="toast">Saved!</div>
 
 <script>
-const STORAGE_KEY = 'houd_commeti_v4';
-const CLOUD_URL_KEY = 'houd_commeti_cloud_url';
+// CRYPTOGRAPHIC ENGINE (PURE JS SHA-256 + STREAM CIPHER)
+const SALT = "cv_salt_9f8e7d6c5b4a";
+const VERIFY_HASH = "2078f915272752d42d4d91f8c00948caf6f928774949833717f5fc772aade4bb";
+const ENCRYPTED_DEFAULT_B64 = "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";
+const STORAGE_ENC_KEY = "houd_commeti_enc_v5";
+const CLOUD_URL_KEY = "houd_commeti_cloud_url";
 
-const defaultData = {
-  A1K: {
-    id: 'A1K',
-    role: 'LEADING',
-    name: 'Committee A1K',
-    sharePrice: 1000,
-    totalShares: 15,
-    totalMonths: 15,
-    currentMonth: 2,
-    potValue: 15000,
-    recipients: {
-      1: 'You (Turn 1)',
-      2: 'You (Turn 2)',
-      3: 'Ammar'
-    },
-    members: [
-      { id: 'khubaib', name: 'Khubaib', contact: 'Hamda Chachi', phone: '03312206012', shares: 1, due: 1000 },
-      { id: 'self_a1k', name: 'You (Self)', contact: 'Internal Share', phone: '', shares: 3, due: 3000 },
-      { id: 'ayesha', name: 'Ayesha', contact: 'Portable Noise Pollution', phone: '+923222986165', shares: 2, due: 2000 },
-      { id: 'kulsoom', name: 'Kulsoom', contact: 'Mini Migraine', phone: '+923149542418', shares: 2, due: 2000 },
-      { id: 'zainab', name: 'Zainab', contact: '24/7 Customer Complain', phone: '03202098967', shares: 1, due: 1000 },
-      { id: 'ammar', name: 'Ammar', contact: 'Niqqa Man (Next Turn)', phone: '+923313052434', shares: 3, due: 3000 },
-      { id: 'abdullah_a1k', name: 'Abdullah', contact: 'Abdullah 2', phone: '+923366165907', shares: 3, due: 3000 }
-    ],
-    records: {
-      2: {
-        khubaib: { paid: true, date: '2026-10-10', method: 'Advance', note: 'Cleared in advance last month', ss: '' },
-        self_a1k: { paid: true, date: '2026-11-01', method: 'Internal Retention', note: 'Your Turn (Month 2)', ss: '' }
-      }
+function sha256Bytes(bytes) {
+  const K = [
+    0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+  ];
+  let H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const l = bytes.length;
+  const bitLenHi = Math.floor((l * 8) / 0x100000000);
+  const bitLenLo = (l * 8) >>> 0;
+  const padLen = ((l + 9 + 63) & ~63);
+  const msg = new Uint8Array(padLen);
+  msg.set(bytes);
+  msg[l] = 0x80;
+  const dv = new DataView(msg.buffer);
+  dv.setUint32(padLen - 8, bitLenHi, false);
+  dv.setUint32(padLen - 4, bitLenLo, false);
+
+  const W = new Uint32Array(64);
+  for (let i = 0; i < padLen; i += 64) {
+    for (let t = 0; t < 16; t++) W[t] = dv.getUint32(i + t * 4, false);
+    for (let t = 16; t < 64; t++) {
+      const s0 = ((W[t-15] >>> 7) | (W[t-15] << 25)) ^ ((W[t-15] >>> 18) | (W[t-15] << 14)) ^ (W[t-15] >>> 3);
+      const s1 = ((W[t-2] >>> 17) | (W[t-2] << 15)) ^ ((W[t-2] >>> 19) | (W[t-2] << 13)) ^ (W[t-2] >>> 10);
+      W[t] = (W[t-16] + s0 + W[t-7] + s1) >>> 0;
     }
-  },
-  A25K: {
-    id: 'A25K',
-    role: 'LEADING',
-    name: 'Committee A25K',
-    sharePrice: 25000,
-    totalShares: 4,
-    totalMonths: 4,
-    currentMonth: 2,
-    potValue: 100000,
-    recipients: {
-      1: 'You',
-      2: 'Abdullah (ARP)',
-      3: 'Amaan',
-      4: 'Naila Phopho'
-    },
-    members: [
-      { id: 'self_a25k', name: 'You (Self)', contact: 'Organizer Share', phone: '', shares: 1, due: 25000 },
-      { id: 'abdullah_a25k', name: 'Abdullah (ARP)', contact: 'Abdullah 2', phone: '+923366165907', shares: 1, due: 25000 },
-      { id: 'amaan', name: 'Amaan', contact: 'Amaan', phone: '+923302765469', shares: 1, due: 25000 },
-      { id: 'naila', name: 'Naila Phopho', contact: 'Paracha', phone: '+971521677454', shares: 1, due: 25000 }
-    ],
-    records: {
-      2: {
-        self_a25k: { paid: true, date: '2026-11-01', method: 'Allocated', note: 'Ready for payout pool', ss: '' },
-        abdullah_a25k: { paid: true, date: '2026-11-01', method: 'Internal Offset', note: 'Deducted from his Rs. 100k draw', ss: '' }
-      }
+    let [a,b,c,d,e,f,g,h] = H;
+    for (let t = 0; t < 64; t++) {
+      const S1 = ((e >>> 6) | (e << 26)) ^ ((e >>> 11) | (e << 21)) ^ ((e >>> 25) | (e << 7));
+      const ch = (e & f) ^ (~e & g);
+      const temp1 = (h + S1 + ch + K[t] + W[t]) >>> 0;
+      const S0 = ((a >>> 2) | (a << 30)) ^ ((a >>> 13) | (a << 19)) ^ ((a >>> 22) | (a << 10));
+      const maj = (a & b) ^ (a & c) ^ (b & c);
+      const temp2 = (S0 + maj) >>> 0;
+      h = g; g = f; f = e; e = (d + temp1) >>> 0; d = c; c = b; b = a; a = (temp1 + temp2) >>> 0;
     }
+    H[0]=(H[0]+a)>>>0; H[1]=(H[1]+b)>>>0; H[2]=(H[2]+c)>>>0; H[3]=(H[3]+d)>>>0;
+    H[4]=(H[4]+e)>>>0; H[5]=(H[5]+f)>>>0; H[6]=(H[6]+g)>>>0; H[7]=(H[7]+h)>>>0;
   }
-};
+  const out = new Uint8Array(32);
+  const outDv = new DataView(out.buffer);
+  for (let i = 0; i < 8; i++) outDv.setUint32(i * 4, H[i], false);
+  return out;
+}
 
-let state = loadState();
+function bytesToHex(bytes) {
+  return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function utf8ToBytes(str) {
+  return new TextEncoder().encode(str);
+}
+
+function bytesToUtf8(bytes) {
+  return new TextDecoder().decode(bytes);
+}
+
+function b64ToBytes(b64) {
+  const bin = atob(b64);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+function bytesToB64(bytes) {
+  let bin = '';
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
+function deriveKey(pinStr) {
+  let data = utf8ToBytes(SALT + ":" + pinStr);
+  for (let i = 0; i < 5000; i++) {
+    data = sha256Bytes(data);
+  }
+  return data;
+}
+
+function verifyKey(keyBytes) {
+  const prefix = utf8ToBytes("verify:");
+  const combined = new Uint8Array(prefix.length + keyBytes.length);
+  combined.set(prefix);
+  combined.set(keyBytes, prefix.length);
+  return bytesToHex(sha256Bytes(combined)) === VERIFY_HASH;
+}
+
+function streamXor(dataBytes, key32) {
+  const out = new Uint8Array(dataBytes.length);
+  let blockIdx = 0;
+  let pos = 0;
+  while (pos < dataBytes.length) {
+    const idxBytes = utf8ToBytes(String(blockIdx));
+    const buf = new Uint8Array(key32.length + idxBytes.length);
+    buf.set(key32);
+    buf.set(idxBytes, key32.length);
+    const ks = sha256Bytes(buf);
+    const chunkLen = Math.min(32, dataBytes.length - pos);
+    for (let i = 0; i < chunkLen; i++) {
+      out[pos + i] = dataBytes[pos + i] ^ ks[i];
+    }
+    pos += chunkLen;
+    blockIdx++;
+  }
+  return out;
+}
+
+function encryptStateObj(obj, key32) {
+  const plainBytes = utf8ToBytes(JSON.stringify(obj));
+  return bytesToB64(streamXor(plainBytes, key32));
+}
+
+function decryptStateB64(b64, key32) {
+  const cipherBytes = b64ToBytes(b64);
+  const plainBytes = streamXor(cipherBytes, key32);
+  return JSON.parse(bytesToUtf8(plainBytes));
+}
+
+// PIN & SESSION STATE
+let enteredPin = "";
+let sessionKey = null;
+let state = null;
+let maskPhones = true;
 let activeCategory = 'LEADING';
 let activeCommeti = null;
 let activeMember = null;
 let selectedMethod = 'Bank / Raast';
 let tempScreenshot = '';
 
-function loadState() {
+function updatePinDots(isError = false) {
+  const dots = document.querySelectorAll('.pin-dot');
+  dots.forEach((d, idx) => {
+    d.classList.remove('filled', 'error');
+    if (isError) d.classList.add('error');
+    else if (idx < enteredPin.length) d.classList.add('filled');
+  });
+}
+
+function pressPin(digit) {
+  if (enteredPin.length >= 6) return;
+  document.getElementById('lockErr').textContent = '';
+  enteredPin += digit;
+  updatePinDots();
+  if (enteredPin.length === 6) {
+    setTimeout(attemptUnlock, 60);
+  }
+}
+
+function backPin() {
+  if (enteredPin.length > 0) {
+    enteredPin = enteredPin.slice(0, -1);
+    updatePinDots();
+  }
+}
+
+function clearPin() {
+  enteredPin = "";
+  document.getElementById('lockErr').textContent = '';
+  updatePinDots();
+}
+
+function attemptUnlock() {
+  const candidateKey = deriveKey(enteredPin);
+  if (!verifyKey(candidateKey)) {
+    document.getElementById('lockErr').textContent = 'Incorrect PIN. Try again.';
+    updatePinDots(true);
+    setTimeout(() => {
+      enteredPin = "";
+      updatePinDots(false);
+    }, 550);
+    return;
+  }
+  sessionKey = candidateKey;
+  enteredPin = "";
+  updatePinDots();
+  loadDecryptedState();
+  document.getElementById('lockScreen').classList.add('hidden');
+  document.getElementById('appContainer').classList.remove('hidden');
+  updateHomeBadges();
+  pullFromCloud();
+}
+
+function lockVault() {
+  sessionKey = null;
+  state = null;
+  enteredPin = "";
+  updatePinDots();
+  document.getElementById('appContainer').classList.add('hidden');
+  document.getElementById('lockScreen').classList.remove('hidden');
+}
+
+// Listen for physical keyboard numbers on PC
+window.addEventListener('keydown', (e) => {
+  if (document.getElementById('lockScreen').classList.contains('hidden')) return;
+  if (e.key >= '0' && e.key <= '9') pressPin(e.key);
+  else if (e.key === 'Backspace') backPin();
+  else if (e.key === 'Escape') clearPin();
+});
+
+function loadDecryptedState() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('houd_commeti_v3');
-    if (raw) {
-      const parsed = JSON.parse(raw);
+    const encLocal = localStorage.getItem(STORAGE_ENC_KEY);
+    if (encLocal) {
+      state = decryptStateB64(encLocal, sessionKey);
+      return;
+    }
+    // Migrate any older unencrypted state on this device and wipe the plain copy
+    const legacy = localStorage.getItem('houd_commeti_v4') || localStorage.getItem('houd_commeti_v3');
+    if (legacy) {
+      const parsed = JSON.parse(legacy);
       Object.keys(parsed).forEach(k => {
         if (!parsed[k].role) parsed[k].role = 'LEADING';
       });
-      return parsed;
+      state = parsed;
+      localStorage.removeItem('houd_commeti_v4');
+      localStorage.removeItem('houd_commeti_v3');
+      saveState();
+      return;
     }
   } catch (e) {}
-  return JSON.parse(JSON.stringify(defaultData));
+  state = decryptStateB64(ENCRYPTED_DEFAULT_B64, sessionKey);
+  saveState();
 }
 
 function saveState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  if (!sessionKey || !state) return;
+  const encB64 = encryptStateObj(state, sessionKey);
+  localStorage.setItem(STORAGE_ENC_KEY, encB64);
   updateHomeBadges();
   pushToCloud();
+}
+
+function formatPhoneDisplay(phone) {
+  if (!phone) return '';
+  if (!maskPhones) return phone;
+  const clean = phone.replace(/\s+/g, '');
+  if (clean.length <= 6) return '••••';
+  return clean.slice(0, 4) + ' •••• ' + clean.slice(-3);
+}
+
+function togglePhoneMask() {
+  maskPhones = !maskPhones;
+  document.getElementById('maskToggleBtn').textContent = maskPhones ? 'Numbers: Masked' : 'Numbers: Visible';
+  if (activeCommeti) renderDetail();
 }
 
 function showToast(msg) {
@@ -682,6 +1012,7 @@ function showToast(msg) {
 }
 
 function updateHomeBadges() {
+  if (!state) return;
   const allKeys = Object.keys(state);
   const leadCount = allKeys.filter(k => (state[k].role || 'LEADING') === 'LEADING').length;
   const partCount = allKeys.filter(k => state[k].role === 'PARTICIPATING').length;
@@ -733,7 +1064,7 @@ function renderCategoryCards() {
     container.innerHTML = `
       <div class="empty-box">
         <div style="font-size:15px; font-weight:700; color:var(--gold-light); margin-bottom:6px;">No ${activeCategory} Committees Yet</div>
-        Share your Participating committee details in Gemini chat and they will appear right here!
+        Whenever you are ready, share your Participating committee details in Gemini chat and we will add them here!
       </div>
     `;
     return;
@@ -859,15 +1190,17 @@ function renderDetail() {
 
     let waBtnHtml = '';
     if (!isPaid && mem.phone && c.role === 'LEADING') {
-      waBtnHtml = `<button class="wa-btn" onclick="sendWhatsApp(event, '${mem.name}', '${mem.phone}', ${mem.due}, '${c.name}', ${m})">Remind</button>`;
+      waBtnHtml = `<button class="wa-btn" onclick="sendWhatsApp(event, '${mem.id}')">Remind</button>`;
     }
+
+    const phoneShown = mem.phone ? `(${formatPhoneDisplay(mem.phone)})` : '';
 
     row.innerHTML = `
       <div class="member-left">
         <div class="check-circle">${isPaid ? '✓' : ''}</div>
         <div>
           <div class="member-name">${mem.name}: Rs. ${mem.due.toLocaleString()}</div>
-          <div class="member-sub">${mem.contact} ${mem.phone ? '(' + mem.phone + ')' : ''}</div>
+          <div class="member-sub">${mem.contact} ${phoneShown}</div>
           ${metaHtml}
         </div>
       </div>
@@ -879,11 +1212,14 @@ function renderDetail() {
   });
 }
 
-function sendWhatsApp(e, name, phone, due, cName, month) {
+function sendWhatsApp(e, memberId) {
   e.stopPropagation();
-  const cleanPhone = phone.replace(/[^0-9]/g, '');
+  const c = state[activeCommeti];
+  const mem = c.members.find(x => x.id === memberId);
+  if (!mem || !mem.phone) return;
+  const cleanPhone = mem.phone.replace(/[^0-9]/g, '');
   const intlPhone = cleanPhone.startsWith('0') ? '92' + cleanPhone.slice(1) : cleanPhone;
-  const text = `Salam ${name}, friendly reminder for ${cName} (Month ${month}): Rs. ${due.toLocaleString()} is due by the 10th. Please send the screenshot once transferred!`;
+  const text = `Salam ${mem.name}, friendly reminder for ${c.name} (Month ${c.currentMonth}): Rs. ${mem.due.toLocaleString()} is due by the 10th. Please send the screenshot once transferred!`;
   window.open(`https://wa.me/${intlPhone}?text=${encodeURIComponent(text)}`, '_blank');
 }
 
@@ -1011,12 +1347,18 @@ function copyWhatsAppReport() {
 }
 
 function exportBackup() {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  if (!sessionKey || !state) return;
+  const payload = {
+    encrypted: true,
+    version: 5,
+    cipher: encryptStateObj(state, sessionKey)
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `commeti_backup_${new Date().toISOString().split('T')[0]}.json`;
+  a.download = `commeti_encrypted_backup_${new Date().toISOString().split('T')[0]}.json`;
   a.click();
-  showToast('Backup Downloaded!');
+  showToast('Encrypted Backup Downloaded!');
 }
 
 function importBackup(e) {
@@ -1026,14 +1368,19 @@ function importBackup(e) {
   reader.onload = function(evt) {
     try {
       const parsed = JSON.parse(evt.target.result);
-      if (parsed.A1K) {
+      if (parsed.encrypted && parsed.cipher) {
+        state = decryptStateB64(parsed.cipher, sessionKey);
+      } else if (parsed.A1K) {
         state = parsed;
-        saveState();
-        updateHomeBadges();
-        showToast('Backup Restored!');
+      } else {
+        throw new Error('Unrecognized backup');
       }
+      saveState();
+      updateHomeBadges();
+      if (activeCommeti) renderDetail();
+      showToast('Backup Restored!');
     } catch (err) {
-      alert('Invalid backup file');
+      alert('Invalid backup file or wrong PIN key');
     }
   };
   reader.readAsText(file);
@@ -1052,38 +1399,39 @@ async function saveCloudConfig() {
   closeSyncModal();
   await pullFromCloud();
   await pushToCloud();
-  showToast('Cloud Sync Updated!');
+  showToast('Encrypted Cloud Sync Updated!');
 }
 
 async function pushToCloud() {
   const url = localStorage.getItem(CLOUD_URL_KEY);
-  if (!url) return;
+  if (!url || !sessionKey || !state) return;
   try {
-    await fetch(url + '/commeti_vault.json', {
+    const cipher = encryptStateObj(state, sessionKey);
+    await fetch(url + '/commeti_vault_enc.json', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ updatedAt: Date.now(), state })
+      body: JSON.stringify({ updatedAt: Date.now(), cipher })
     });
   } catch (e) {}
 }
 
 async function pullFromCloud() {
   const url = localStorage.getItem(CLOUD_URL_KEY);
-  if (!url) return;
+  if (!url || !sessionKey) return;
   try {
-    const res = await fetch(url + '/commeti_vault.json');
+    const res = await fetch(url + '/commeti_vault_enc.json');
     const data = await res.json();
-    if (data && data.state && data.state.A1K) {
-      state = data.state;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      updateHomeBadges();
-      if (activeCommeti) renderDetail();
+    if (data && data.cipher) {
+      const dec = decryptStateB64(data.cipher, sessionKey);
+      if (dec && dec.A1K) {
+        state = dec;
+        localStorage.setItem(STORAGE_ENC_KEY, data.cipher);
+        updateHomeBadges();
+        if (activeCommeti) renderDetail();
+      }
     }
   } catch (e) {}
 }
-
-updateHomeBadges();
-pullFromCloud();
 </script>
 </body>
 </html>
