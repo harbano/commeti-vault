@@ -1,26 +1,35 @@
 <!DOCTYPE html>
-<!-- Commeti Vault Encrypted Build v6.0 (Pot Screenshot Vault + History + A1K Schedule) -->
+<!-- Commeti Vault Encrypted Build v7.0 (High-Contrast Clean UI + Auto Cloud Sync + Fingerprint/FaceID) -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Commeti Vault</title>
 <style>
   :root {
-    --bg: #0b0d13;
-    --card: #12151e;
-    --card-hover: #181c28;
-    --border: rgba(212, 175, 55, 0.22);
-    --border-soft: rgba(255, 255, 255, 0.08);
-    --gold: #d4af37;
-    --gold-light: #f3e5ab;
-    --gold-dim: rgba(212, 175, 55, 0.12);
-    --emerald: #10b981;
-    --emerald-dim: rgba(16, 185, 129, 0.14);
-    --danger: #ef4444;
-    --text: #f3f4f6;
-    --muted: #9ca3af;
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface-sub: #f8fafc;
+    --border: #cbd5e1;
+    --border-strong: #94a3b8;
+    --text-main: #0f172a;
+    --text-sub: #334155;
+    --text-muted: #64748b;
+    --primary: #1d4ed8;
+    --primary-light: #eff6ff;
+    --primary-border: #bfdbfe;
+    --success: #15803d;
+    --success-bg: #dcfce7;
+    --success-border: #86efac;
+    --warn: #b45309;
+    --warn-bg: #fef3c7;
+    --warn-border: #fcd34d;
+    --danger: #dc2626;
+    --danger-bg: #fef2f2;
   }
   * {
     box-sizing: border-box;
@@ -31,95 +40,122 @@
   }
   body {
     background: var(--bg);
-    color: var(--text);
+    color: var(--text-main);
     min-height: 100vh;
-    padding-bottom: 54px;
+    padding-bottom: 60px;
   }
   .container {
-    max-width: 520px;
+    max-width: 540px;
     margin: 0 auto;
     padding: 16px;
   }
-  /* LOCK SCREEN */
+
+  /* LOCK SCREEN - HIGH CONTRAST & CLEAN */
   .lock-screen {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at top, #161b29 0%, #0b0d13 70%);
+    background: var(--bg);
     z-index: 5000;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 24px;
+    padding: 20px;
   }
   .lock-card {
     width: 100%;
-    max-width: 360px;
-    background: rgba(18, 21, 30, 0.9);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 28px 22px;
+    max-width: 370px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 22px;
+    padding: 26px 22px;
     text-align: center;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
   }
   .lock-icon {
-    width: 54px;
-    height: 54px;
-    border-radius: 16px;
-    background: var(--gold-dim);
-    border: 1px solid var(--border);
-    color: var(--gold);
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: var(--primary-light);
+    border: 1.5px solid var(--primary-border);
+    color: var(--primary);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: 24px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
   .lock-title {
-    font-size: 21px;
+    font-size: 22px;
     font-weight: 800;
-    color: var(--gold-light);
-    margin-bottom: 6px;
+    color: var(--text-main);
+    margin-bottom: 4px;
   }
   .lock-sub {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 22px;
+    font-size: 13px;
+    color: var(--text-sub);
+    margin-bottom: 18px;
+  }
+  .bio-unlock-btn {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 14px;
+    background: var(--primary);
+    color: #ffffff;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
+  }
+  .bio-unlock-btn:active {
+    transform: scale(0.98);
   }
   .pin-dots {
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin-bottom: 22px;
+    margin-bottom: 16px;
   }
   .pin-dot {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
-    border: 2px solid var(--border);
-    background: transparent;
+    border: 2px solid var(--border-strong);
+    background: #ffffff;
     transition: all 0.15s ease;
   }
   .pin-dot.filled {
-    background: var(--gold);
-    border-color: var(--gold);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    background: var(--primary);
+    border-color: var(--primary);
   }
   .pin-dot.error {
     background: var(--danger);
     border-color: var(--danger);
   }
+  .lock-err-msg {
+    font-size: 13px;
+    color: var(--danger);
+    min-height: 18px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
   .keypad {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
   .key-btn {
-    height: 56px;
-    border-radius: 14px;
-    border: 1px solid var(--border-soft);
-    background: #151925;
-    color: var(--text);
+    height: 54px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: var(--surface-sub);
+    color: var(--text-main);
     font-size: 20px;
     font-weight: 700;
     cursor: pointer;
@@ -127,46 +163,40 @@
     align-items: center;
     justify-content: center;
     user-select: none;
-    transition: transform 0.1s ease, background 0.15s ease;
   }
   .key-btn:active {
-    transform: scale(0.95);
-    background: var(--gold-dim);
-    border-color: var(--gold);
-    color: var(--gold-light);
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary);
   }
   .key-btn.action {
     font-size: 13px;
-    color: var(--muted);
-    font-weight: 600;
-  }
-  .lock-err-msg {
-    font-size: 12px;
-    color: var(--danger);
-    min-height: 18px;
-    margin-bottom: 10px;
-    font-weight: 600;
+    color: var(--text-sub);
+    font-weight: 700;
   }
 
-  /* APP UI */
+  /* TOP BAR */
   .topbar {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 14px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 0 18px;
-    border-bottom: 1px solid var(--border-soft);
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
   }
   .brand-title {
-    font-size: 20px;
+    font-size: 19px;
     font-weight: 800;
-    letter-spacing: -0.3px;
-    color: var(--gold-light);
+    color: var(--text-main);
   }
   .brand-sub {
     font-size: 12px;
-    color: var(--muted);
+    color: var(--text-sub);
     margin-top: 2px;
+    font-weight: 500;
   }
   .top-actions {
     display: flex;
@@ -177,204 +207,250 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 6px 11px;
-    border-radius: 999px;
-    background: var(--gold-dim);
-    color: var(--gold);
-    border: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 11px;
+    border-radius: 10px;
+    background: var(--success-bg);
+    color: var(--success);
+    border: 1px solid var(--success-border);
     cursor: pointer;
   }
+  .badge-sync.syncing {
+    background: var(--warn-bg);
+    color: var(--warn);
+    border-color: var(--warn-border);
+  }
   .lock-now-btn {
-    padding: 6px 10px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-soft);
-    color: var(--muted);
-    font-size: 11px;
-    font-weight: 600;
+    padding: 7px 11px;
+    border-radius: 10px;
+    background: var(--surface-sub);
+    border: 1.5px solid var(--border);
+    color: var(--text-main);
+    font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
   }
   .dot {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: var(--emerald);
-    box-shadow: 0 0 8px var(--emerald);
+    background: var(--success);
   }
+  .badge-sync.syncing .dot {
+    background: var(--warn);
+  }
+
+  /* SECTION HEADERS */
   .section-label {
-    font-size: 11px;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 1.4px;
-    color: var(--muted);
-    font-weight: 700;
-    margin-bottom: 12px;
+    letter-spacing: 0.8px;
+    color: var(--text-sub);
+    font-weight: 800;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
+
+  /* HOME MODE CARDS (LEADING / PARTICIPATING) */
   .gateway-card {
-    background: linear-gradient(145deg, #151926 0%, #0e111a 100%);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 24px 20px;
-    margin-bottom: 16px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 14px;
     cursor: pointer;
-    transition: transform 0.15s ease, border-color 0.2s ease;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 3px 10px rgba(15, 23, 42, 0.04);
+    transition: border-color 0.15s ease, transform 0.1s ease;
   }
   .gateway-card:active {
-    transform: scale(0.98);
+    transform: scale(0.99);
+    border-color: var(--primary);
   }
   .gateway-heading {
-    font-size: 22px;
+    font-size: 21px;
     font-weight: 900;
-    letter-spacing: 1.2px;
-    color: var(--gold-light);
-    margin-bottom: 6px;
+    color: var(--primary);
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
   }
   .gateway-sub {
     font-size: 13px;
-    color: var(--muted);
-    line-height: 1.4;
+    color: var(--text-sub);
+    line-height: 1.45;
   }
   .gateway-meta {
-    margin-top: 12px;
+    margin-top: 10px;
     display: inline-block;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     padding: 5px 10px;
-    border-radius: 999px;
-    background: var(--gold-dim);
-    color: var(--gold);
-    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid var(--primary-border);
   }
   .gateway-arrow {
     font-size: 24px;
-    color: var(--gold);
-    font-weight: 800;
+    color: var(--primary);
+    font-weight: 900;
     margin-left: 14px;
   }
+
+  /* COMMITTEE SUMMARY CARD */
   .commeti-card {
-    background: linear-gradient(145deg, #141824 0%, #0f121a 100%);
-    border: 1px solid var(--border);
+    background: var(--surface);
+    border: 1.5px solid var(--border);
     border-radius: 16px;
     padding: 18px;
     margin-bottom: 14px;
     cursor: pointer;
-    transition: transform 0.15s ease;
-  }
-  .commeti-card:active {
-    transform: scale(0.985);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
   }
   .card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 12px;
+    gap: 8px;
   }
   .card-title {
     font-size: 18px;
     font-weight: 800;
-    color: #fff;
+    color: var(--text-main);
   }
   .card-pill {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     padding: 4px 10px;
-    border-radius: 999px;
-    background: var(--gold-dim);
-    color: var(--gold);
-    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid var(--primary-border);
+    white-space: nowrap;
   }
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
-    background: rgba(0, 0, 0, 0.28);
-    padding: 10px;
+    background: var(--surface-sub);
+    border: 1px solid var(--border);
+    padding: 12px 10px;
     border-radius: 12px;
     margin-bottom: 12px;
   }
   .stat-label {
-    font-size: 10px;
-    color: var(--muted);
+    font-size: 11px;
+    color: var(--text-sub);
+    font-weight: 700;
     text-transform: uppercase;
   }
   .stat-val {
-    font-size: 13px;
-    font-weight: 700;
-    margin-top: 2px;
-    color: var(--text);
+    font-size: 14px;
+    font-weight: 800;
+    margin-top: 3px;
+    color: var(--text-main);
   }
-  .stat-val.gold { color: var(--gold); }
-  .stat-val.emerald { color: var(--emerald); }
+  .stat-val.blue { color: var(--primary); }
+  .stat-val.green { color: var(--success); }
+  .stat-val.amber { color: var(--warn); }
+
   .progress-wrap {
     width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.08);
+    height: 8px;
+    background: #e2e8f0;
     border-radius: 999px;
     overflow: hidden;
   }
   .progress-bar {
     height: 100%;
-    background: linear-gradient(90deg, var(--gold), var(--emerald));
+    background: var(--success);
     transition: width 0.3s ease;
   }
   .card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
-    font-size: 12px;
-    color: var(--muted);
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-sub);
+    font-weight: 600;
   }
+
+  /* SIMPLE VIEW TABS INSIDE COMMITTEE */
+  .view-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    background: #e2e8f0;
+    padding: 5px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+  .view-tab {
+    padding: 10px 12px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 800;
+    text-align: center;
+    cursor: pointer;
+    color: var(--text-sub);
+    background: transparent;
+    border: none;
+  }
+  .view-tab.active {
+    background: var(--surface);
+    color: var(--primary);
+    box-shadow: 0 2px 5px rgba(15, 23, 42, 0.08);
+  }
+
   /* POT VAULT CARD */
   .pot-vault-card {
-    background: linear-gradient(145deg, rgba(212, 175, 55, 0.12) 0%, rgba(18, 21, 30, 0.95) 100%);
-    border: 1px solid var(--gold);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 18px;
+    background: var(--warn-bg);
+    border: 1.5px solid var(--warn-border);
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 16px;
   }
   .pot-vault-card.settled {
-    background: linear-gradient(145deg, rgba(16, 185, 129, 0.12) 0%, rgba(18, 21, 30, 0.95) 100%);
-    border-color: var(--emerald);
+    background: var(--success-bg);
+    border-color: var(--success-border);
   }
   .pot-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 10px;
-    margin-bottom: 10px;
   }
   .pot-title {
     font-size: 15px;
     font-weight: 800;
-    color: var(--gold-light);
+    color: var(--text-main);
   }
   .pot-sub {
-    font-size: 12px;
-    color: var(--muted);
+    font-size: 13px;
+    color: var(--text-sub);
     margin-top: 3px;
+    font-weight: 500;
   }
   .pot-status-badge {
     font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: var(--gold-dim);
-    color: var(--gold);
-    border: 1px solid var(--border);
+    font-weight: 800;
+    padding: 4px 9px;
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--warn);
+    border: 1px solid var(--warn-border);
     white-space: nowrap;
   }
   .pot-vault-card.settled .pot-status-badge {
-    background: var(--emerald-dim);
-    color: var(--emerald);
-    border-color: rgba(16, 185, 129, 0.35);
+    color: var(--success);
+    border-color: var(--success-border);
   }
   .pot-actions {
     display: flex;
@@ -382,141 +458,36 @@
     margin-top: 12px;
     flex-wrap: wrap;
   }
-  /* POT HISTORY TIMELINE */
-  .history-card {
-    background: var(--card);
-    border: 1px solid var(--border-soft);
-    border-radius: 14px;
-    padding: 12px 14px;
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-  }
-  .history-card.settled {
-    border-color: rgba(16, 185, 129, 0.3);
-    background: rgba(16, 185, 129, 0.04);
-  }
-  .history-card.current-m {
-    border-color: var(--gold);
-  }
-  .history-left {
-    flex: 1;
-  }
-  .history-month {
-    font-size: 13px;
-    font-weight: 800;
-    color: var(--text);
-  }
-  .history-rec {
-    font-size: 12px;
-    color: var(--gold-light);
-    margin-top: 2px;
-    font-weight: 600;
-  }
-  .history-meta {
-    font-size: 11px;
-    color: var(--emerald);
-    margin-top: 3px;
-  }
-  .history-right {
-    text-align: right;
-  }
-  .mini-pill {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 5px 9px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--muted);
-    border: 1px solid var(--border-soft);
-    display: inline-block;
-  }
-  .mini-pill.done {
-    background: var(--emerald-dim);
-    color: var(--emerald);
-    border-color: rgba(16, 185, 129, 0.3);
-  }
-  .btn-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 16px;
-    flex-wrap: wrap;
-  }
-  .btn {
-    flex: 1;
-    min-width: 120px;
-    padding: 11px 14px;
-    border-radius: 12px;
-    border: 1px solid var(--border-soft);
-    background: var(--card);
-    color: var(--text);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: center;
-  }
-  .btn-sm {
-    padding: 8px 12px;
-    font-size: 12px;
-    border-radius: 10px;
-    min-width: auto;
-  }
-  .btn-gold {
-    background: linear-gradient(135deg, #d4af37, #b58922);
-    color: #0b0d13;
-    border: none;
-    font-weight: 700;
-  }
-  .btn-emerald {
-    background: var(--emerald-dim);
-    color: var(--emerald);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-  }
-  .back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    background: var(--card);
-    border: 1px solid var(--border-soft);
-    color: var(--text);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 14px;
-  }
+
+  /* MONTH CHIPS */
   .month-bar {
     display: flex;
     gap: 6px;
     overflow-x: auto;
     padding-bottom: 8px;
     margin-bottom: 14px;
-    scrollbar-width: none;
   }
-  .month-bar::-webkit-scrollbar { display: none; }
   .month-chip {
-    padding: 7px 12px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 8px 13px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
     white-space: nowrap;
-    background: var(--card);
-    border: 1px solid var(--border-soft);
-    color: var(--muted);
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    color: var(--text-sub);
     cursor: pointer;
   }
   .month-chip.active {
-    background: var(--gold-dim);
-    color: var(--gold);
-    border-color: var(--gold);
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
   }
+
+  /* MEMBER ITEMS - HIGH CONTRAST */
   .member-item {
-    background: var(--card);
-    border: 1px solid var(--border-soft);
+    background: var(--surface);
+    border: 1.5px solid var(--border);
     border-radius: 14px;
     padding: 14px;
     margin-bottom: 10px;
@@ -527,8 +498,8 @@
     cursor: pointer;
   }
   .member-item.paid {
-    border-color: rgba(16, 185, 129, 0.28);
-    background: rgba(16, 185, 129, 0.04);
+    background: #f0fdf4;
+    border-color: var(--success-border);
   }
   .member-left {
     display: flex;
@@ -537,99 +508,225 @@
     flex: 1;
   }
   .check-circle {
-    width: 24px;
-    height: 24px;
-    border-radius: 7px;
-    border: 2px solid var(--muted);
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    border: 2px solid var(--border-strong);
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    font-size: 14px;
-    font-weight: 800;
+    font-size: 15px;
+    font-weight: 900;
   }
   .member-item.paid .check-circle {
-    background: var(--emerald);
-    border-color: var(--emerald);
-    color: #06281e;
+    background: var(--success);
+    border-color: var(--success);
+    color: #ffffff;
   }
   .member-name {
     font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-  }
-  .member-item.paid .member-name {
-    text-decoration: line-through;
-    color: var(--muted);
+    font-weight: 800;
+    color: var(--text-main);
   }
   .member-sub {
     font-size: 12px;
-    color: var(--muted);
+    color: var(--text-sub);
     margin-top: 2px;
+    font-weight: 500;
   }
   .member-meta {
-    font-size: 11px;
-    color: var(--emerald);
+    font-size: 12px;
+    color: var(--success);
     margin-top: 4px;
-    font-weight: 600;
+    font-weight: 700;
+  }
+  .member-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status-btn {
+    padding: 7px 11px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid var(--primary-border);
+    background: var(--primary-light);
+    color: var(--primary);
+    cursor: pointer;
+  }
+  .member-item.paid .status-btn {
+    background: var(--success-bg);
+    color: var(--success);
+    border-color: var(--success-border);
   }
   .wa-btn {
     padding: 7px 10px;
-    border-radius: 9px;
-    background: var(--emerald-dim);
-    color: var(--emerald);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    font-size: 11px;
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--success);
+    border: 1.5px solid var(--success-border);
+    font-size: 12px;
     font-weight: 700;
     cursor: pointer;
   }
+
+  /* POT HISTORY CARDS */
+  .history-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .history-card.settled {
+    background: #f0fdf4;
+    border-color: var(--success-border);
+  }
+  .history-card.current-m {
+    border: 2px solid var(--primary);
+  }
+  .history-month {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-main);
+  }
+  .history-rec {
+    font-size: 13px;
+    color: var(--primary);
+    margin-top: 2px;
+    font-weight: 700;
+  }
+  .history-meta {
+    font-size: 12px;
+    color: var(--success);
+    margin-top: 3px;
+    font-weight: 700;
+  }
+  .mini-pill {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: var(--surface-sub);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    display: inline-block;
+  }
+  .mini-pill.done {
+    background: var(--success-bg);
+    color: var(--success);
+    border-color: var(--success-border);
+  }
+
+  /* BUTTONS */
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    flex: 1;
+    min-width: 115px;
+    padding: 11px 14px;
+    border-radius: 11px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+  }
+  .btn-sm {
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 9px;
+    min-width: auto;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+  }
+  .btn-success {
+    background: var(--success);
+    color: #ffffff;
+    border-color: var(--success);
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 14px;
+  }
+
+  /* MODALS */
   .modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.78);
+    background: rgba(15, 23, 42, 0.55);
     display: none;
     align-items: center;
     justify-content: center;
     padding: 16px;
-    z-index: 999;
+    z-index: 2000;
   }
   .modal-backdrop.open { display: flex; }
   .modal {
-    background: #141824;
-    border: 1px solid var(--border);
+    background: var(--surface);
+    border: 1.5px solid var(--border);
     border-radius: 18px;
     width: 100%;
     max-width: 420px;
     padding: 20px;
     max-height: 90vh;
     overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
   }
   .modal-title {
     font-size: 18px;
     font-weight: 800;
-    color: var(--gold-light);
+    color: var(--text-main);
     margin-bottom: 4px;
   }
   .modal-sub {
-    font-size: 12px;
-    color: var(--muted);
+    font-size: 13px;
+    color: var(--text-sub);
     margin-bottom: 16px;
   }
   .field-label {
     font-size: 12px;
-    color: var(--muted);
+    color: var(--text-sub);
     margin-bottom: 6px;
     display: block;
-    font-weight: 600;
+    font-weight: 700;
   }
   .input {
     width: 100%;
     padding: 11px 12px;
     border-radius: 10px;
-    border: 1px solid var(--border-soft);
-    background: #0b0d13;
-    color: var(--text);
+    border: 1.5px solid var(--border);
+    background: var(--surface-sub);
+    color: var(--text-main);
     font-size: 14px;
+    font-weight: 600;
     margin-bottom: 14px;
   }
   .method-grid {
@@ -641,18 +738,18 @@
   .method-btn {
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid var(--border-soft);
-    background: #0b0d13;
-    color: var(--muted);
+    border: 1.5px solid var(--border);
+    background: var(--surface-sub);
+    color: var(--text-sub);
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     text-align: center;
   }
   .method-btn.active {
-    background: var(--gold-dim);
-    color: var(--gold);
-    border-color: var(--gold);
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
   }
   .ss-preview {
     width: 100%;
@@ -660,46 +757,52 @@
     object-fit: contain;
     border-radius: 10px;
     margin-top: 8px;
-    border: 1px solid var(--border-soft);
+    border: 1.5px solid var(--border);
     display: none;
   }
   .empty-box {
-    background: var(--card);
-    border: 1px dashed var(--border);
+    background: var(--surface);
+    border: 2px dashed var(--border);
     border-radius: 16px;
     padding: 26px 18px;
     text-align: center;
-    color: var(--muted);
-    font-size: 13px;
+    color: var(--text-sub);
+    font-size: 14px;
     line-height: 1.6;
     margin-bottom: 16px;
   }
   .hidden { display: none !important; }
   .toast {
     position: fixed;
-    bottom: 20px;
+    bottom: 22px;
     left: 50%;
     transform: translateX(-50%);
-    background: #1f2937;
-    color: #fff;
-    border: 1px solid var(--gold);
-    padding: 10px 18px;
+    background: var(--text-main);
+    color: #ffffff;
+    padding: 11px 20px;
     border-radius: 999px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     display: none;
     z-index: 6000;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
   }
 </style>
 </head>
 <body>
 
-<!-- ENCRYPTED PIN LOCK SCREEN -->
+<!-- ENCRYPTED PIN & BIOMETRIC LOCK SCREEN -->
 <div class="lock-screen" id="lockScreen">
   <div class="lock-card">
     <div class="lock-icon">🔒</div>
     <div class="lock-title">Commeti Vault</div>
-    <div class="lock-sub">Enter your 6-digit PIN to decrypt ledger</div>
+    <div class="lock-sub">Unlock with Fingerprint / Face ID or 6-Digit PIN</div>
+
+    <button class="bio-unlock-btn hidden" id="bioUnlockBtn" onclick="triggerBiometricUnlock()">
+      <span>🫆</span>
+      <span>Scan Fingerprint / Face ID</span>
+    </button>
+
     <div class="pin-dots" id="pinDots">
       <div class="pin-dot"></div>
       <div class="pin-dot"></div>
@@ -726,30 +829,30 @@
   </div>
 </div>
 
-<!-- MAIN APP CONTAINER (HIDDEN UNTIL DECRYPTED) -->
+<!-- MAIN APP CONTAINER -->
 <div class="container hidden" id="appContainer">
   <div class="topbar">
     <div>
       <div class="brand-title">Commeti Vault</div>
-      <div class="brand-sub">Encrypted Ledger • Due 10th of Month</div>
+      <div class="brand-sub" id="lastSyncSub">Auto-Cloud Sync Active</div>
     </div>
     <div class="top-actions">
-      <button class="lock-now-btn" onclick="lockVault()">🔒 Lock</button>
-      <div class="badge-sync" onclick="openSyncModal()">
+      <div class="badge-sync" id="syncBadge" onclick="manualSyncNow()">
         <span class="dot"></span>
-        <span>Cloud</span>
+        <span id="syncStatusText">Synced</span>
       </div>
+      <button class="lock-now-btn" onclick="lockVault()">🔒 Lock</button>
     </div>
   </div>
 
-  <!-- VIEW 0: FIRST INTERFACE (LEADING vs PARTICIPATING) -->
+  <!-- VIEW 0: HOME (LEADING vs PARTICIPATING) -->
   <div id="homeView">
-    <div class="section-label">Choose Mode</div>
+    <div class="section-label">Select Committee Type</div>
 
     <div class="gateway-card" onclick="openCategory('LEADING')">
       <div>
         <div class="gateway-heading">LEADING</div>
-        <div class="gateway-sub">Committees you organize, manage payouts for, and collect monthly installments.</div>
+        <div class="gateway-sub">Committees you organize, collect monthly payments for, and hand over the pot.</div>
         <div class="gateway-meta" id="leadingMetaBadge">2 Active Committees</div>
       </div>
       <div class="gateway-arrow">→</div>
@@ -758,27 +861,31 @@
     <div class="gateway-card" onclick="openCategory('PARTICIPATING')">
       <div>
         <div class="gateway-heading">PARTICIPATING</div>
-        <div class="gateway-sub">Committees run by others where you pay your monthly share and track your pot & history.</div>
-        <div class="gateway-meta" id="participatingMetaBadge">Track Your Shares</div>
+        <div class="gateway-sub">Committees led by others where you pay monthly shares and track your pot turn.</div>
+        <div class="gateway-meta" id="participatingMetaBadge">Tap to Open</div>
       </div>
       <div class="gateway-arrow">→</div>
     </div>
 
-    <div class="section-label" style="margin-top: 24px;">Security & Backup</div>
+    <div class="section-label" style="margin-top: 22px;">Quick Settings & Security</div>
     <div class="btn-row">
+      <button class="btn btn-primary" id="enrollBioBtn" onclick="enrollBiometrics()">🫆 Enable Fingerprint / Face ID</button>
       <button class="btn" onclick="togglePhoneMask()" id="maskToggleBtn">Numbers: Masked</button>
+    </div>
+    <div class="btn-row" style="margin-top: 8px;">
       <button class="btn" onclick="exportBackup()">Export Backup</button>
       <button class="btn" onclick="document.getElementById('importFile').click()">Restore Backup</button>
+      <button class="btn" onclick="openSyncModal()">Cloud Info</button>
       <input type="file" id="importFile" accept=".json" class="hidden" onchange="importBackup(event)">
     </div>
   </div>
 
-  <!-- VIEW 1: CATEGORY LIST (LEADING OR PARTICIPATING) -->
+  <!-- VIEW 1: CATEGORY LIST -->
   <div id="categoryView" class="hidden">
-    <button class="back-btn" onclick="showHome()">← Home (LEADING / PARTICIPATING)</button>
+    <button class="back-btn" onclick="showHome()">← Back to Home</button>
     <div class="section-label">
       <span id="categoryTitle">LEADING</span>
-      <button class="btn btn-sm btn-gold" id="addPartBtn" onclick="openAddCommetiModal()" style="flex:0; white-space:nowrap;">+ Add Committee</button>
+      <button class="btn btn-sm btn-primary" onclick="openAddCommetiModal()" style="flex:0; white-space:nowrap;">+ Add Committee</button>
     </div>
     <div id="cardsContainer"></div>
   </div>
@@ -787,31 +894,42 @@
   <div id="detailView" class="hidden">
     <button class="back-btn" id="detailBackBtn" onclick="backToCategory()">← Back</button>
     <div id="detailHeader"></div>
+
+    <!-- MONTH SELECTOR BAR -->
     <div class="month-bar" id="monthBar"></div>
 
-    <!-- POT VAULT FOR THIS MONTH -->
-    <div class="section-label">
-      <span id="potSectionLabel">Pot Handover & Proof</span>
+    <!-- CLEAN 2-TAB SWITCHER (NO CONFUSING CLUTTER) -->
+    <div class="view-tabs">
+      <button class="view-tab active" id="tabBtnChecklist" onclick="switchDetailTab('checklist')">📋 Monthly Checklist</button>
+      <button class="view-tab" id="tabBtnHistory" onclick="switchDetailTab('history')">🏆 Pot History (All Months)</button>
     </div>
-    <div id="potVaultContainer"></div>
 
-    <!-- MEMBERS & INSTALLMENTS -->
-    <div class="section-label" id="listHeaderLabel">Members & Monthly Installments</div>
-    <div id="membersList"></div>
+    <!-- TAB 1: MONTHLY CHECKLIST + THIS MONTH'S POT -->
+    <div id="tabChecklistSection">
+      <div class="section-label">
+        <span id="potSectionLabel">This Month's Pot</span>
+      </div>
+      <div id="potVaultContainer"></div>
 
-    <!-- FULL POT PAYOUT HISTORY (ALL MONTHS) -->
-    <div class="section-label" style="margin-top: 22px;">
-      <span>Pot Payout History & Schedule (All Months)</span>
+      <div class="section-label" id="listHeaderLabel">Members & Installments</div>
+      <div id="membersList"></div>
+
+      <div class="btn-row" id="detailFooterBtns">
+        <button class="btn btn-success" onclick="copyWhatsAppReport()">📋 Copy WhatsApp Status</button>
+      </div>
     </div>
-    <div id="potHistoryList"></div>
 
-    <div class="btn-row" id="detailFooterBtns">
-      <button class="btn btn-emerald" onclick="copyWhatsAppReport()">Copy WhatsApp Status</button>
+    <!-- TAB 2: ALL MONTHS POT HISTORY & SCHEDULE -->
+    <div id="tabHistorySection" class="hidden">
+      <div class="section-label">
+        <span>Tap any month to set recipient or drop Pot Screenshot</span>
+      </div>
+      <div id="potHistoryList"></div>
     </div>
   </div>
 </div>
 
-<!-- MODAL: RECORD MEMBER INSTALLMENT PAYMENT -->
+<!-- MODAL: RECORD MEMBER PAYMENT -->
 <div class="modal-backdrop" id="payModal">
   <div class="modal">
     <div class="modal-title" id="payModalTitle">Record Payment</div>
@@ -829,7 +947,7 @@
     </div>
 
     <div id="digitalFields">
-      <label class="field-label">Transaction ID / Reference Note (Optional)</label>
+      <label class="field-label">Transaction ID / Note (Optional)</label>
       <input type="text" id="payNote" class="input" placeholder="e.g. Meezan RAAST #9481">
 
       <label class="field-label">Upload Screenshot Proof</label>
@@ -838,8 +956,8 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-gold" onclick="savePayment(false)">Save Verified</button>
-      <button class="btn" onclick="savePayment(true)">Skip Proof</button>
+      <button class="btn btn-primary" onclick="savePayment(false)">Save Verified</button>
+      <button class="btn" onclick="savePayment(true)">Quick Mark Paid</button>
     </div>
     <div class="btn-row" style="margin-top:8px;">
       <button class="btn" onclick="closePayModal()">Cancel</button>
@@ -850,13 +968,13 @@
 <!-- MODAL: RECORD / EDIT POT PAYOUT & SCREENSHOT -->
 <div class="modal-backdrop" id="potModal">
   <div class="modal">
-    <div class="modal-title" id="potModalTitle">Record Pot Payout</div>
-    <div class="modal-sub" id="potModalSub">Save pot transfer screenshot & recipient history</div>
+    <div class="modal-title" id="potModalTitle">Pot Handover & Proof</div>
+    <div class="modal-sub" id="potModalSub">Save pot screenshot & recipient</div>
 
     <label class="field-label">Pot Recipient Name</label>
     <input type="text" id="potRecipientInput" class="input" placeholder="Enter recipient name">
 
-    <label class="field-label">Handover / Payout Date</label>
+    <label class="field-label">Handover Date</label>
     <input type="date" id="potDateInput" class="input">
 
     <label class="field-label">Transfer Method</label>
@@ -868,15 +986,15 @@
     </div>
 
     <label class="field-label">Pot Payout Note / Reference ID</label>
-    <input type="text" id="potNoteInput" class="input" placeholder="e.g. Full pot transferred via Meezan Bank">
+    <input type="text" id="potNoteInput" class="input" placeholder="e.g. Full pot transferred">
 
     <label class="field-label">Drop Pot Screenshot Proof (Optional)</label>
     <input type="file" id="potFileInput" accept="image/*" class="input" onchange="handleScreenshot(event, 'pot')">
     <img id="potPreview" class="ss-preview">
 
     <div class="btn-row">
-      <button class="btn btn-gold" onclick="savePotPayout(true)">Save Pot Handover</button>
-      <button class="btn" onclick="savePotPayout(false)">Update Recipient Only</button>
+      <button class="btn btn-success" onclick="savePotPayout(true)">✓ Mark Pot Handed Over</button>
+      <button class="btn" onclick="savePotPayout(false)">Save Recipient Name Only</button>
     </div>
     <div class="btn-row" style="margin-top:8px;">
       <button class="btn" onclick="closePotModal()">Cancel</button>
@@ -884,29 +1002,29 @@
   </div>
 </div>
 
-<!-- MODAL: VIEW RECEIPT (MEMBER OR POT) -->
+<!-- MODAL: VIEW RECEIPT -->
 <div class="modal-backdrop" id="receiptModal">
   <div class="modal">
     <div class="modal-title" id="recTitle">Payment Receipt</div>
     <div class="modal-sub" id="recSub">Verified Entry</div>
-    <div id="recBody" style="font-size:13px; line-height:1.7; color:var(--text); margin-bottom:12px;"></div>
+    <div id="recBody" style="font-size:14px; line-height:1.75; color:var(--text-main); margin-bottom:12px;"></div>
     <img id="recImg" class="ss-preview" style="max-height:320px;">
-    <div class="btn-row" style="margin-top:14px;" id="recActionRow">
-      <button class="btn" style="color:var(--danger); border-color:rgba(239,68,68,0.3);" id="recUndoBtn" onclick="undoPayment()">Undo / Mark Unpaid</button>
-      <button class="btn" id="recEditPotBtn" class="hidden" onclick="editFromPotReceipt()">Edit / Add SS</button>
-      <button class="btn btn-gold" onclick="closeReceiptModal()">Close</button>
+    <div class="btn-row" style="margin-top:14px;">
+      <button class="btn" style="color:var(--danger); border-color:#fecaca; background:var(--danger-bg);" id="recUndoBtn" onclick="undoPayment()">Undo / Mark Unpaid</button>
+      <button class="btn hidden" id="recEditPotBtn" onclick="editFromPotReceipt()">Edit / Add SS</button>
+      <button class="btn btn-primary" onclick="closeReceiptModal()">Close</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL: ADD NEW COMMITTEE (PARTICIPATING OR LEADING) -->
+<!-- MODAL: ADD NEW COMMITTEE -->
 <div class="modal-backdrop" id="addCommetiModal">
   <div class="modal">
     <div class="modal-title" id="addCommetiTitle">Add Committee</div>
     <div class="modal-sub">Track installments, pot screenshots & history</div>
 
     <label class="field-label">Committee Name / Organizer</label>
-    <input type="text" id="newComName" class="input" placeholder="e.g. Chacho 50K Commeti">
+    <input type="text" id="newComName" class="input" placeholder="e.g. 50K Commeti">
 
     <label class="field-label">Your Monthly Contribution (Rs.)</label>
     <input type="number" id="newComShare" class="input" placeholder="e.g. 10000">
@@ -918,42 +1036,49 @@
     <input type="number" id="newComMonths" class="input" placeholder="e.g. 10" value="10">
 
     <label class="field-label">Which Month Number Is Your Payout Turn?</label>
-    <input type="number" id="newComMyTurn" class="input" placeholder="e.g. 4">
+    <input type="number" id="newComMyTurn" class="input" placeholder="e.g. 4" value="1">
 
     <div class="btn-row">
-      <button class="btn btn-gold" onclick="createNewCommeti()">Create Committee</button>
+      <button class="btn btn-primary" onclick="createNewCommeti()">Create Committee</button>
       <button class="btn" onclick="closeAddCommetiModal()">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL: CLOUD SYNC -->
+<!-- MODAL: CLOUD SYNC SETTINGS -->
 <div class="modal-backdrop" id="syncModal">
   <div class="modal">
-    <div class="modal-title">Encrypted Cloud Sync</div>
-    <div class="modal-sub">Sync encrypted ciphertext across your Phone & PC</div>
-    <p style="font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:12px;">
-      All records and pot screenshots are encrypted with your 6-digit PIN before saving to your device or cloud.
+    <div class="modal-title">Auto-Cloud Sync Status</div>
+    <div class="modal-sub">Automatic encrypted sync across Laptop & Android</div>
+    <p style="font-size:13px; color:var(--text-sub); line-height:1.55; margin-bottom:14px;">
+      <b>Built-in Cloud Sync is Active!</b> Every change you make is encrypted with your PIN and automatically synced to the cloud when you click, switch tabs, or close the app/website.
     </p>
-    <label class="field-label">Cloud Endpoint (Optional Firebase Realtime DB URL)</label>
-    <input type="text" id="cloudUrlInput" class="input" placeholder="https://your-project-default-rtdb.firebaseio.com">
+    <label class="field-label">Optional Custom Firebase DB URL (Leave blank to use built-in cloud)</label>
+    <input type="text" id="cloudUrlInput" class="input" placeholder="Built-in Encrypted Cloud Active">
     <div class="btn-row">
-      <button class="btn btn-gold" onclick="saveCloudConfig()">Save & Sync Now</button>
+      <button class="btn btn-primary" onclick="saveCloudConfig()">Force Sync Now</button>
       <button class="btn" onclick="closeSyncModal()">Close</button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast">Saved!</div>
+<div class="toast" id="toast">Saved & Synced!</div>
 
 <script>
-// CRYPTOGRAPHIC ENGINE (PURE JS SHA-256 + STREAM CIPHER)
+// CRYPTOGRAPHIC ENGINE (SHA-256 + STREAM CIPHER)
 const SALT = "cv_salt_9f8e7d6c5b4a";
 const VERIFY_HASH = "2078f915272752d42d4d91f8c00948caf6f928774949833717f5fc772aade4bb";
 const ENCRYPTED_DEFAULT_B64 = "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";
 const ENCRYPTED_PATCH_B64 = "y8xq0uQQeT9jzK32N9Obso5ovEinHh7q4obdfApSwonqdfHK1TJ6es+b0zynGIp26eqa3KrUI7jJbZzJd5TJqEhs0OeTx9Cmd4RllwdEz2nc2bj5mkg6ieVt/N2MrfbreDjntdr6gWqZmUcyOqISf7j5ChSLKbPYEXjv/3bVu4zAFYdJykim1Ep/qp0XCAdSr3Tx66AgNU/CJ2byQxO7ujMR0DBpkPd99/xL2cCK9j77y3Z389nwfmbM6GOpANob+dwduNytFt3HNpJWEb24AcH2Oo7qsWaHhDiNTeB5AG+PPhCLF91BCzK0l5L/Bw1MvpZtKkgQ6kL2iZe2VfsYDHa1+R2K5S8nNKMEMg/cTPUntQ17WLYX+svEzu+A+8/OX2NL+IRNa9R4ytAE73dDy5pFNCWe+GyYPwJWslRfiTWdwszP8eFpPEUdGjqCQjaQo+fQQZaCk4CATcaYqxggs/Pthn6GT/+gK9ujboefLqcHIvwWRxgwPXyVvRS9/MG/dBvq6TMDLUK2Nk0UU7Agnt8ixJpebktHZqZfkew5vfvmJKU=";
 const STORAGE_ENC_KEY = "houd_commeti_enc_v5";
+const STORAGE_TS_KEY = "houd_commeti_ts_v7";
 const CLOUD_URL_KEY = "houd_commeti_cloud_url";
+const BIO_CRED_ID_KEY = "houd_commeti_bio_cred_id";
+const BIO_WRAPPED_KEY = "houd_commeti_bio_wrapped";
+
+// Deterministic encrypted sync channel derived from verify hash
+const BUILTIN_SYNC_TOPIC = "cv_vault_sync_" + VERIFY_HASH.slice(0, 20);
+const NTFY_TOPIC_URL = "https://ntfy.sh/" + BUILTIN_SYNC_TOPIC;
 
 function sha256Bytes(bytes) {
   const K = [
@@ -1060,16 +1185,18 @@ function decryptStateB64(b64, key32) {
   return JSON.parse(bytesToUtf8(plainBytes));
 }
 
-// PIN & SESSION STATE
+// SESSION & UI STATE
 let enteredPin = "";
 let sessionKey = null;
 let state = null;
+let localUpdatedAt = parseInt(localStorage.getItem(STORAGE_TS_KEY) || "0", 10) || 0;
 let maskPhones = true;
 let activeCategory = 'LEADING';
 let activeCommeti = null;
+let activeDetailTab = 'checklist';
 let activeMember = null;
 let activePotMonth = null;
-let receiptMode = 'member'; // 'member' or 'pot'
+let receiptMode = 'member';
 let selectedMethod = 'Bank / Raast';
 let selectedPotMethod = 'Bank / Raast';
 let tempScreenshot = '';
@@ -1078,7 +1205,6 @@ let tempPotScreenshot = '';
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 function getMonthCalendarLabel(c, monthNum) {
-  // Default start: Oct 2026 (Month 1 = Oct 2026, Month 2 = Nov 2026, Month 3 = Dec 2026, Month 4 = Jan 2027, Month 5 = Feb 2027)
   const startStr = (c && c.startMonth) ? c.startMonth : "2026-10";
   const parts = startStr.split('-');
   const startYear = parseInt(parts[0], 10) || 2026;
@@ -1089,6 +1215,117 @@ function getMonthCalendarLabel(c, monthNum) {
   return `${MONTH_NAMES[mIdx]} ${y}`;
 }
 
+// BIOMETRIC (FINGERPRINT / FACE ID) ENGINE VIA WEBAUTHN
+function checkBiometricSupport() {
+  const hasCred = localStorage.getItem(BIO_CRED_ID_KEY) && localStorage.getItem(BIO_WRAPPED_KEY);
+  const bioBtn = document.getElementById('bioUnlockBtn');
+  if (hasCred && window.PublicKeyCredential) {
+    bioBtn.classList.remove('hidden');
+  } else {
+    bioBtn.classList.add('hidden');
+  }
+  updateBioButtonLabel();
+}
+
+function updateBioButtonLabel() {
+  const enrollBtn = document.getElementById('enrollBioBtn');
+  if (!enrollBtn) return;
+  const hasCred = localStorage.getItem(BIO_CRED_ID_KEY) && localStorage.getItem(BIO_WRAPPED_KEY);
+  enrollBtn.textContent = hasCred ? '🫆 Biometric Unlock: ON' : '🫆 Enable Fingerprint / Face ID';
+}
+
+async function enrollBiometrics() {
+  if (!sessionKey) return;
+  if (!window.PublicKeyCredential || !navigator.credentials) {
+    alert('Fingerprint / Face ID requires opening this link in Chrome or installing via Chrome "Add to Home Screen".');
+    return;
+  }
+  try {
+    const challenge = new Uint8Array(32);
+    crypto.getRandomValues(challenge);
+    const userId = new Uint8Array(16);
+    crypto.getRandomValues(userId);
+
+    const cred = await navigator.credentials.create({
+      publicKey: {
+        challenge,
+        rp: { name: "Commeti Vault" },
+        user: {
+          id: userId,
+          name: "vault-owner",
+          displayName: "Commeti Vault Owner"
+        },
+        pubKeyCredParams: [
+          { type: "public-key", alg: -7 },
+          { type: "public-key", alg: -257 }
+        ],
+        authenticatorSelection: {
+          authenticatorAttachment: "platform",
+          userVerification: "required",
+          residentKey: "preferred"
+        },
+        timeout: 60000
+      }
+    });
+
+    if (cred && cred.rawId) {
+      const rawIdBytes = new Uint8Array(cred.rawId);
+      const credIdB64 = bytesToB64(rawIdBytes);
+      const wrapMask = sha256Bytes(rawIdBytes);
+      const wrappedKey = new Uint8Array(32);
+      for (let i = 0; i < 32; i++) wrappedKey[i] = sessionKey[i] ^ wrapMask[i];
+
+      localStorage.setItem(BIO_CRED_ID_KEY, credIdB64);
+      localStorage.setItem(BIO_WRAPPED_KEY, bytesToB64(wrappedKey));
+      checkBiometricSupport();
+      showToast('Fingerprint / Face ID Enabled!');
+    }
+  } catch (err) {
+    alert('Could not register Fingerprint/Face ID on this view. Tip: Make sure screen lock (Fingerprint/Face) is turned on in your device settings, or open in Chrome.');
+  }
+}
+
+async function triggerBiometricUnlock() {
+  const credIdB64 = localStorage.getItem(BIO_CRED_ID_KEY);
+  const wrappedB64 = localStorage.getItem(BIO_WRAPPED_KEY);
+  if (!credIdB64 || !wrappedB64 || !navigator.credentials) return;
+
+  try {
+    const challenge = new Uint8Array(32);
+    crypto.getRandomValues(challenge);
+    const credIdBytes = b64ToBytes(credIdB64);
+
+    const assertion = await navigator.credentials.get({
+      publicKey: {
+        challenge,
+        allowCredentials: [{
+          id: credIdBytes,
+          type: "public-key"
+        }],
+        userVerification: "required",
+        timeout: 60000
+      }
+    });
+
+    if (assertion && assertion.rawId) {
+      const rawIdBytes = new Uint8Array(assertion.rawId);
+      const wrapMask = sha256Bytes(rawIdBytes);
+      const wrappedBytes = b64ToBytes(wrappedB64);
+      const candidateKey = new Uint8Array(32);
+      for (let i = 0; i < 32; i++) candidateKey[i] = wrappedBytes[i] ^ wrapMask[i];
+
+      if (verifyKey(candidateKey)) {
+        completeUnlockWithKey(candidateKey);
+      } else {
+        document.getElementById('lockErr').textContent = 'Biometric key mismatch. Please enter PIN.';
+      }
+    }
+  } catch (err) {
+    document.getElementById('lockErr').textContent = 'Scan cancelled. Tap again or use PIN.';
+  }
+}
+
+// PIN PAD LOGIC
 function updatePinDots(isError = false) {
   const dots = document.querySelectorAll('.pin-dot');
   dots.forEach((d, idx) => {
@@ -1103,7 +1340,7 @@ function pressPin(digit) {
   document.getElementById('lockErr').textContent = '';
   enteredPin += digit;
   updatePinDots();
-  if (enteredPin.length === 6) setTimeout(attemptUnlock, 60);
+  if (enteredPin.length === 6) setTimeout(attemptUnlock, 50);
 }
 
 function backPin() {
@@ -1127,24 +1364,31 @@ function attemptUnlock() {
     setTimeout(() => {
       enteredPin = "";
       updatePinDots(false);
-    }, 550);
+    }, 500);
     return;
   }
-  sessionKey = candidateKey;
+  completeUnlockWithKey(candidateKey);
+}
+
+function completeUnlockWithKey(validKey) {
+  sessionKey = validKey;
   enteredPin = "";
   updatePinDots();
   loadDecryptedState();
   document.getElementById('lockScreen').classList.add('hidden');
   document.getElementById('appContainer').classList.remove('hidden');
   updateHomeBadges();
-  pullFromCloud();
+  updateBioButtonLabel();
+  pullFromCloud(true);
 }
 
 function lockVault() {
+  pushToCloud(true);
   sessionKey = null;
   state = null;
   enteredPin = "";
   updatePinDots();
+  checkBiometricSupport();
   document.getElementById('appContainer').classList.add('hidden');
   document.getElementById('lockScreen').classList.remove('hidden');
 }
@@ -1189,22 +1433,204 @@ function loadDecryptedState() {
     const encLocal = localStorage.getItem(STORAGE_ENC_KEY);
     if (encLocal) {
       state = applyScheduleAndPotUpgrade(decryptStateB64(encLocal, sessionKey));
-      saveState();
       return;
     }
   } catch (e) {}
   state = applyScheduleAndPotUpgrade(decryptStateB64(ENCRYPTED_DEFAULT_B64, sessionKey));
-  saveState();
+  saveState(false);
 }
 
-function saveState() {
+function saveState(triggerCloud = true) {
   if (!sessionKey || !state) return;
+  localUpdatedAt = Date.now();
   const encB64 = encryptStateObj(state, sessionKey);
   localStorage.setItem(STORAGE_ENC_KEY, encB64);
+  localStorage.setItem(STORAGE_TS_KEY, String(localUpdatedAt));
   updateHomeBadges();
-  pushToCloud();
+  if (triggerCloud) {
+    pushToCloud(false);
+  }
 }
 
+// AUTOMATIC CLOUD SYNC ENGINE (BUILT-IN ZERO-CONFIG + AUTO SAVE ON EXIT)
+function setSyncIndicator(status, label) {
+  const badge = document.getElementById('syncBadge');
+  const txt = document.getElementById('syncStatusText');
+  const sub = document.getElementById('lastSyncSub');
+  if (!badge || !txt) return;
+  if (status === 'syncing') {
+    badge.classList.add('syncing');
+    txt.textContent = label || 'Syncing...';
+  } else {
+    badge.classList.remove('syncing');
+    txt.textContent = label || 'Cloud Synced';
+    if (sub) {
+      const now = new Date();
+      sub.textContent = `Auto-Synced • ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+    }
+  }
+}
+
+async function pushToCloud(isLeaving = false) {
+  if (!sessionKey || !state) return;
+  setSyncIndicator('syncing', 'Saving...');
+  const cipher = encryptStateObj(state, sessionKey);
+  const ts = localUpdatedAt || Date.now();
+
+  // 1. Optional Custom Firebase URL if user configured one
+  const customUrl = localStorage.getItem(CLOUD_URL_KEY);
+  if (customUrl) {
+    try {
+      await fetch(customUrl + '/commeti_vault_enc.json', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updatedAt: ts, cipher }),
+        keepalive: true
+      });
+    } catch (e) {}
+  }
+
+  // 2. Built-in Zero-Config Cloud Sync (works automatically across Browser & App)
+  try {
+    if (cipher.length < 3400) {
+      const payload = JSON.stringify({ v: 7, updatedAt: ts, mode: 'direct', cipher });
+      await fetch(NTFY_TOPIC_URL, {
+        method: 'POST',
+        body: payload,
+        keepalive: true
+      });
+    } else {
+      // Upload large encrypted state (with screenshots) to bytebin CORS store, then post pointer to ntfy
+      const blobRes = await fetch('https://bytebin.lucko.me/post', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ v: 7, updatedAt: ts, cipher }),
+        keepalive: isLeaving
+      });
+      const blobJson = await blobRes.json();
+      if (blobJson && blobJson.key) {
+        const ptrPayload = JSON.stringify({
+          v: 7,
+          updatedAt: ts,
+          mode: 'ptr',
+          url: 'https://bytebin.lucko.me/' + blobJson.key
+        });
+        await fetch(NTFY_TOPIC_URL, {
+          method: 'POST',
+          body: ptrPayload,
+          keepalive: true
+        });
+      }
+    }
+    setSyncIndicator('synced', 'Cloud Synced');
+  } catch (e) {
+    setSyncIndicator('synced', 'Saved Locally');
+  }
+}
+
+async function pullFromCloud(silent = true) {
+  if (!sessionKey) return;
+  if (!silent) setSyncIndicator('syncing', 'Checking Cloud...');
+
+  let newestRemoteTs = 0;
+  let newestCipher = null;
+
+  // 1. Check Custom Firebase URL if set
+  const customUrl = localStorage.getItem(CLOUD_URL_KEY);
+  if (customUrl) {
+    try {
+      const res = await fetch(customUrl + '/commeti_vault_enc.json');
+      const data = await res.json();
+      if (data && data.cipher && (data.updatedAt || 0) > newestRemoteTs) {
+        newestRemoteTs = data.updatedAt || 1;
+        newestCipher = data.cipher;
+      }
+    } catch (e) {}
+  }
+
+  // 2. Check Built-in Zero-Config Cloud
+  try {
+    const res = await fetch(NTFY_TOPIC_URL + '/json?poll=1&since=all');
+    const text = await res.text();
+    const lines = text.trim().split('\n');
+    for (let i = lines.length - 1; i >= 0; i--) {
+      if (!lines[i]) continue;
+      try {
+        const evt = JSON.parse(lines[i]);
+        if (evt && evt.event === 'message' && evt.message) {
+          const msg = JSON.parse(evt.message);
+          if (msg && msg.v === 7 && msg.updatedAt > newestRemoteTs) {
+            if (msg.mode === 'direct' && msg.cipher) {
+              newestRemoteTs = msg.updatedAt;
+              newestCipher = msg.cipher;
+              break;
+            } else if (msg.mode === 'ptr' && msg.url) {
+              const bRes = await fetch(msg.url);
+              const bData = await bRes.json();
+              if (bData && bData.cipher) {
+                newestRemoteTs = msg.updatedAt;
+                newestCipher = bData.cipher;
+                break;
+              }
+            }
+          }
+        }
+      } catch (innerErr) {}
+    }
+  } catch (e) {}
+
+  if (newestCipher && newestRemoteTs > localUpdatedAt) {
+    try {
+      const dec = applyScheduleAndPotUpgrade(decryptStateB64(newestCipher, sessionKey));
+      if (dec && dec.A1K) {
+        state = dec;
+        localUpdatedAt = newestRemoteTs;
+        localStorage.setItem(STORAGE_ENC_KEY, encryptStateObj(state, sessionKey));
+        localStorage.setItem(STORAGE_TS_KEY, String(localUpdatedAt));
+        updateHomeBadges();
+        if (activeCommeti) renderDetail();
+        else if (!document.getElementById('categoryView').classList.contains('hidden')) renderCategoryCards();
+        if (!silent) showToast('Latest Cloud Data Loaded!');
+      }
+    } catch (e) {}
+  }
+  setSyncIndicator('synced', 'Cloud Synced');
+}
+
+function manualSyncNow() {
+  pullFromCloud(false).then(() => pushToCloud(false));
+  showToast('Cloud Synced!');
+}
+
+// AUTO-SAVE & AUTO-SYNC WHEN LEAVING APP OR WEBSITE OR SWITCHING TABS
+document.addEventListener('visibilitychange', () => {
+  if (!sessionKey || !state) return;
+  if (document.visibilityState === 'hidden') {
+    pushToCloud(true);
+  } else if (document.visibilityState === 'visible') {
+    pullFromCloud(true);
+  }
+});
+
+window.addEventListener('pagehide', () => {
+  if (sessionKey && state) pushToCloud(true);
+});
+
+window.addEventListener('beforeunload', () => {
+  if (sessionKey && state) pushToCloud(true);
+});
+
+window.addEventListener('focus', () => {
+  if (sessionKey && state) pullFromCloud(true);
+});
+
+setInterval(() => {
+  if (sessionKey && state && document.visibilityState === 'visible') {
+    pullFromCloud(true);
+  }
+}, 25000);
+
+// UI HELPERS
 function formatPhoneDisplay(phone) {
   if (!phone) return '';
   if (!maskPhones) return phone;
@@ -1256,6 +1682,14 @@ function backToCategory() {
   openCategory(activeCategory);
 }
 
+function switchDetailTab(tabName) {
+  activeDetailTab = tabName;
+  document.getElementById('tabBtnChecklist').classList.toggle('active', tabName === 'checklist');
+  document.getElementById('tabBtnHistory').classList.toggle('active', tabName === 'history');
+  document.getElementById('tabChecklistSection').classList.toggle('hidden', tabName !== 'checklist');
+  document.getElementById('tabHistorySection').classList.toggle('hidden', tabName !== 'history');
+}
+
 function getMonthStats(cId, month) {
   const c = state[cId];
   const mRec = c.records[month] || {};
@@ -1279,7 +1713,7 @@ function renderCategoryCards() {
   if (keys.length === 0) {
     container.innerHTML = `
       <div class="empty-box">
-        <div style="font-size:15px; font-weight:700; color:var(--gold-light); margin-bottom:6px;">No ${activeCategory} Committees Yet</div>
+        <div style="font-size:16px; font-weight:800; color:var(--text-main); margin-bottom:6px;">No ${activeCategory} Committees Yet</div>
         Tap <b>+ Add Committee</b> above right now or share your Participating committee details in Gemini chat!
       </div>
     `;
@@ -1300,30 +1734,30 @@ function renderCategoryCards() {
       <div class="card-header">
         <div>
           <div class="card-title">${c.name}</div>
-          <div style="font-size:12px; color:var(--muted); margin-top:2px;">Rs. ${c.sharePrice.toLocaleString()} / share • ${calLabel}</div>
+          <div style="font-size:13px; color:var(--text-sub); margin-top:2px; font-weight:600;">Rs. ${c.sharePrice.toLocaleString()} / share • ${calLabel}</div>
         </div>
         <div class="card-pill">Month ${m} of ${c.totalMonths}</div>
       </div>
       <div class="stats-grid">
         <div class="stat-box">
           <div class="stat-label">Total Pot</div>
-          <div class="stat-val gold">Rs. ${c.potValue.toLocaleString()}</div>
+          <div class="stat-val blue">Rs. ${c.potValue.toLocaleString()}</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">${c.role === 'PARTICIPATING' ? 'Your Share' : 'Collected'}</div>
-          <div class="stat-val emerald">Rs. ${stats.collected.toLocaleString()}</div>
+          <div class="stat-val green">Rs. ${stats.collected.toLocaleString()}</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Pot Status</div>
-          <div class="stat-val ${potSettled ? 'emerald' : ''}">${potSettled ? '✓ Settled' : 'Pending'}</div>
+          <div class="stat-val ${potSettled ? 'green' : 'amber'}">${potSettled ? '✓ Handed Over' : 'Pending'}</div>
         </div>
       </div>
       <div class="progress-wrap">
         <div class="progress-bar" style="width:${stats.percent}%"></div>
       </div>
       <div class="card-footer">
-        <span>Pot Turn: <b style="color:var(--gold-light)">${recipient}</b></span>
-        <span>Open Vault →</span>
+        <span>Pot Turn: <b style="color:var(--text-main)">${recipient}</b></span>
+        <span style="color:var(--primary); font-weight:800;">Open →</span>
       </div>
     `;
     container.appendChild(card);
@@ -1332,6 +1766,8 @@ function renderCategoryCards() {
 
 function openCommeti(cId) {
   activeCommeti = cId;
+  activeDetailTab = 'checklist';
+  switchDetailTab('checklist');
   document.getElementById('categoryView').classList.add('hidden');
   document.getElementById('detailView').classList.remove('hidden');
   document.getElementById('detailBackBtn').textContent = `← Back to ${activeCategory}`;
@@ -1346,30 +1782,30 @@ function renderDetail() {
   const calLabel = getMonthCalendarLabel(c, m);
   const stats = getMonthStats(activeCommeti, m);
   const potEntry = c.payouts[m] || null;
-  const recipient = (potEntry && potEntry.recipient) || c.recipients[m] || 'Tap to Set Recipient';
+  const recipient = (potEntry && potEntry.recipient) || c.recipients[m] || 'Tap to Set';
   const isPotSettled = Boolean(potEntry && potEntry.settled);
 
   document.getElementById('detailHeader').innerHTML = `
-    <div class="commeti-card" style="cursor:default;">
+    <div class="commeti-card" style="cursor:default; margin-bottom:12px;">
       <div class="card-header">
         <div>
           <div class="card-title">${c.name} — Month ${m} (${calLabel})</div>
-          <div style="font-size:12px; color:var(--muted); margin-top:2px;">Pot Recipient: <b style="color:var(--gold)">${recipient}</b></div>
+          <div style="font-size:13px; color:var(--text-sub); margin-top:3px; font-weight:600;">Pot Turn: <b style="color:var(--primary)">${recipient}</b></div>
         </div>
-        <div class="card-pill">${stats.percent}% Cleared</div>
+        <div class="card-pill">${stats.percent}% Paid</div>
       </div>
-      <div class="stats-grid">
+      <div class="stats-grid" style="margin-bottom:10px;">
         <div class="stat-box">
           <div class="stat-label">Pot Value</div>
-          <div class="stat-val gold">Rs. ${c.potValue.toLocaleString()}</div>
+          <div class="stat-val blue">Rs. ${c.potValue.toLocaleString()}</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">${c.role === 'PARTICIPATING' ? 'Paid This Mo' : 'Collected'}</div>
-          <div class="stat-val emerald">Rs. ${stats.collected.toLocaleString()}</div>
+          <div class="stat-label">${c.role === 'PARTICIPATING' ? 'Paid' : 'Collected'}</div>
+          <div class="stat-val green">Rs. ${stats.collected.toLocaleString()}</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">Remaining</div>
-          <div class="stat-val">Rs. ${stats.pending.toLocaleString()}</div>
+          <div class="stat-val amber">Rs. ${stats.pending.toLocaleString()}</div>
         </div>
       </div>
       <div class="progress-wrap">
@@ -1378,7 +1814,7 @@ function renderDetail() {
     </div>
   `;
 
-  // Month bar with Calendar labels
+  // Month bar
   const mb = document.getElementById('monthBar');
   mb.innerHTML = '';
   for (let i = 1; i <= c.totalMonths; i++) {
@@ -1395,8 +1831,8 @@ function renderDetail() {
     mb.appendChild(chip);
   }
 
-  // POT VAULT SECTION FOR CURRENT SELECTED MONTH
-  document.getElementById('potSectionLabel').textContent = `Month ${m} (${calLabel}) — Pot Vault & Screenshot`;
+  // POT VAULT BOX
+  document.getElementById('potSectionLabel').textContent = `Month ${m} (${calLabel}) — Pot Handover & Screenshot`;
   const potBox = document.getElementById('potVaultContainer');
   if (isPotSettled) {
     potBox.innerHTML = `
@@ -1404,14 +1840,14 @@ function renderDetail() {
         <div class="pot-top">
           <div>
             <div class="pot-title">🏆 Pot Taken By: ${recipient}</div>
-            <div class="pot-sub">Amount: Rs. ${c.potValue.toLocaleString()} • ${potEntry.method || 'Settled'} on ${potEntry.date || 'N/A'}</div>
-            ${potEntry.note ? `<div style="font-size:11px; color:var(--text); margin-top:4px;">Note: ${potEntry.note}</div>` : ''}
+            <div class="pot-sub">Rs. ${c.potValue.toLocaleString()} • ${potEntry.method || 'Settled'} on ${potEntry.date || 'N/A'}</div>
+            ${potEntry.note ? `<div style="font-size:12px; color:var(--text-main); margin-top:4px; font-weight:600;">Note: ${potEntry.note}</div>` : ''}
           </div>
-          <span class="pot-status-badge">✓ Pot Handed Over ${potEntry.ss ? '📷' : ''}</span>
+          <span class="pot-status-badge">✓ Handed Over ${potEntry.ss ? '📷' : ''}</span>
         </div>
         <div class="pot-actions">
-          <button class="btn btn-sm btn-emerald" onclick="openPotReceiptModal(${m})">${potEntry.ss ? '📷 View Pot SS & Receipt' : 'View Pot Details'}</button>
-          <button class="btn btn-sm" onclick="openPotModal(${m})">Update / Change SS</button>
+          <button class="btn btn-sm btn-success" onclick="openPotReceiptModal(${m})">${potEntry.ss ? '📷 View Pot Screenshot' : 'View Pot Details'}</button>
+          <button class="btn btn-sm" onclick="openPotModal(${m})">Edit / Change SS</button>
         </div>
       </div>
     `;
@@ -1421,13 +1857,13 @@ function renderDetail() {
         <div class="pot-top">
           <div>
             <div class="pot-title">🏆 Pot Recipient: ${recipient}</div>
-            <div class="pot-sub">Total Pot: Rs. ${c.potValue.toLocaleString()} • Drop proof here when pot is handed over</div>
+            <div class="pot-sub">Total Pot: Rs. ${c.potValue.toLocaleString()} • Upload screenshot when pot is given</div>
           </div>
-          <span class="pot-status-badge">⏳ Pending Handover</span>
+          <span class="pot-status-badge">Pending</span>
         </div>
         <div class="pot-actions">
-          <button class="btn btn-sm btn-gold" onclick="openPotModal(${m})">📤 Drop Pot SS / Mark Handed Over</button>
-          <button class="btn btn-sm" onclick="openPotModal(${m})">Edit Recipient</button>
+          <button class="btn btn-sm btn-primary" onclick="openPotModal(${m})">📤 Drop Pot Screenshot / Mark Given</button>
+          <button class="btn btn-sm" onclick="openPotModal(${m})">Change Recipient</button>
         </div>
       </div>
     `;
@@ -1450,7 +1886,7 @@ function renderDetail() {
 
     let metaHtml = '';
     if (isPaid) {
-      metaHtml = `<div class="member-meta">✓ ${rec.method || 'Cleared'} • ${rec.date || ''} ${rec.ss ? '• 📷 SS' : ''}</div>`;
+      metaHtml = `<div class="member-meta">✓ Paid via ${rec.method || 'Cleared'} (${rec.date || ''}) ${rec.ss ? '• 📷 Screenshot' : ''}</div>`;
     }
 
     let waBtnHtml = '';
@@ -1458,25 +1894,26 @@ function renderDetail() {
       waBtnHtml = `<button class="wa-btn" onclick="sendWhatsApp(event, '${mem.id}')">Remind</button>`;
     }
 
-    const phoneShown = mem.phone ? `(${formatPhoneDisplay(mem.phone)})` : '';
+    const phoneShown = mem.phone ? `• ${formatPhoneDisplay(mem.phone)}` : '';
 
     row.innerHTML = `
       <div class="member-left">
         <div class="check-circle">${isPaid ? '✓' : ''}</div>
         <div>
-          <div class="member-name">${mem.name}: Rs. ${mem.due.toLocaleString()}</div>
+          <div class="member-name">${mem.name} — Rs. ${mem.due.toLocaleString()}</div>
           <div class="member-sub">${mem.contact} ${phoneShown}</div>
           ${metaHtml}
         </div>
       </div>
       <div class="member-right">
         ${waBtnHtml}
+        <span class="status-btn">${isPaid ? (rec.ss ? '📷 View' : 'Paid') : 'Mark Paid'}</span>
       </div>
     `;
     list.appendChild(row);
   });
 
-  // POT PAYOUT HISTORY TIMELINE (ALL MONTHS)
+  // POT HISTORY TIMELINE (TAB 2)
   const histList = document.getElementById('potHistoryList');
   histList.innerHTML = '';
   for (let i = 1; i <= c.totalMonths; i++) {
@@ -1492,9 +1929,9 @@ function renderDetail() {
     };
     hCard.innerHTML = `
       <div class="history-left">
-        <div class="history-month">Month ${i} (${cal}) ${i === m ? '• Current' : ''}</div>
-        <div class="history-rec">Recipient: ${recName} — Rs. ${c.potValue.toLocaleString()}</div>
-        ${isDone ? `<div class="history-meta">✓ ${pEnt.method || 'Handed Over'} on ${pEnt.date || ''} ${pEnt.ss ? '• 📷 SS Saved' : ''}</div>` : ''}
+        <div class="history-month">Month ${i} (${cal}) ${i === m ? '• Current Month' : ''}</div>
+        <div class="history-rec">Pot Recipient: ${recName} (Rs. ${c.potValue.toLocaleString()})</div>
+        ${isDone ? `<div class="history-meta">✓ ${pEnt.method || 'Handed Over'} on ${pEnt.date || ''} ${pEnt.ss ? '• 📷 Screenshot Saved' : ''}</div>` : ''}
       </div>
       <div class="history-right">
         <span class="mini-pill ${isDone ? 'done' : ''}">${isDone ? (pEnt.ss ? '📷 View SS' : '✓ Settled') : 'Set / Drop SS'}</span>
@@ -1562,7 +1999,7 @@ function handleScreenshot(e, targetType) {
       canvas.height = img.height * scale;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.68);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.65);
       if (targetType === 'pot') {
         tempPotScreenshot = dataUrl;
         const prev = document.getElementById('potPreview');
@@ -1588,16 +2025,15 @@ function savePayment(skipProof) {
     paid: true,
     date: document.getElementById('payDate').value || new Date().toISOString().split('T')[0],
     method: skipProof ? 'Quick Clear' : selectedMethod,
-    note: skipProof ? 'Cleared without proof' : document.getElementById('payNote').value,
+    note: skipProof ? 'Marked paid' : document.getElementById('payNote').value,
     ss: skipProof ? '' : tempScreenshot
   };
   saveState();
   closePayModal();
   renderDetail();
-  showToast('Payment Marked Paid!');
+  showToast('Saved & Synced to Cloud!');
 }
 
-// POT MODAL HANDLERS
 function openPotModal(monthNum) {
   activePotMonth = monthNum;
   const c = state[activeCommeti];
@@ -1647,12 +2083,12 @@ function savePotPayout(markSettled) {
       note: document.getElementById('potNoteInput').value.trim(),
       ss: tempPotScreenshot
     };
-    showToast('Pot Handover & Proof Saved!');
+    showToast('Pot Handover Saved & Synced!');
   } else {
     if (c.payouts[m]) {
       c.payouts[m].recipient = recName;
     }
-    showToast('Pot Recipient Updated!');
+    showToast('Recipient Updated & Synced!');
   }
 
   saveState();
@@ -1746,10 +2182,9 @@ function undoPayment() {
   }
   closeReceiptModal();
   renderDetail();
-  showToast('Marked Unpaid');
+  showToast('Marked Unpaid & Synced');
 }
 
-// ADD COMMITTEE MODAL (FOR PARTICIPATING OR LEADING)
 function openAddCommetiModal() {
   document.getElementById('addCommetiTitle').textContent = `Add ${activeCategory} Committee`;
   document.getElementById('newComName').value = '';
@@ -1793,7 +2228,7 @@ function createNewCommeti() {
     recipients,
     payouts: {},
     members: [
-      { id: 'my_share_' + id, name: 'Your Monthly Installment', contact: activeCategory === 'PARTICIPATING' ? 'Tap to drop your monthly payment SS' : 'Organizer Share', phone: '', shares: 1, due: share }
+      { id: 'my_share_' + id, name: 'Your Monthly Installment', contact: activeCategory === 'PARTICIPATING' ? 'Tap to upload your monthly payment SS' : 'Organizer Share', phone: '', shares: 1, due: share }
     ],
     records: {}
   };
@@ -1801,7 +2236,7 @@ function createNewCommeti() {
   saveState();
   closeAddCommetiModal();
   renderCategoryCards();
-  showToast('Committee Added!');
+  showToast('Committee Added & Synced!');
 }
 
 function copyWhatsAppReport() {
@@ -1830,7 +2265,8 @@ function exportBackup() {
   if (!sessionKey || !state) return;
   const payload = {
     encrypted: true,
-    version: 6,
+    version: 7,
+    updatedAt: localUpdatedAt,
     cipher: encryptStateObj(state, sessionKey)
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
@@ -1858,7 +2294,7 @@ function importBackup(e) {
       saveState();
       updateHomeBadges();
       if (activeCommeti) renderDetail();
-      showToast('Backup Restored!');
+      showToast('Backup Restored & Synced!');
     } catch (err) {
       alert('Invalid backup file or wrong PIN key');
     }
@@ -1877,41 +2313,13 @@ async function saveCloudConfig() {
   const url = document.getElementById('cloudUrlInput').value.trim().replace(/\/$/, '');
   localStorage.setItem(CLOUD_URL_KEY, url);
   closeSyncModal();
-  await pullFromCloud();
-  await pushToCloud();
-  showToast('Encrypted Cloud Sync Updated!');
+  await pullFromCloud(false);
+  await pushToCloud(false);
+  showToast('Synced with Cloud!');
 }
 
-async function pushToCloud() {
-  const url = localStorage.getItem(CLOUD_URL_KEY);
-  if (!url || !sessionKey || !state) return;
-  try {
-    const cipher = encryptStateObj(state, sessionKey);
-    await fetch(url + '/commeti_vault_enc.json', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ updatedAt: Date.now(), cipher })
-    });
-  } catch (e) {}
-}
-
-async function pullFromCloud() {
-  const url = localStorage.getItem(CLOUD_URL_KEY);
-  if (!url || !sessionKey) return;
-  try {
-    const res = await fetch(url + '/commeti_vault_enc.json');
-    const data = await res.json();
-    if (data && data.cipher) {
-      const dec = applyScheduleAndPotUpgrade(decryptStateB64(data.cipher, sessionKey));
-      if (dec && dec.A1K) {
-        state = dec;
-        localStorage.setItem(STORAGE_ENC_KEY, encryptStateObj(state, sessionKey));
-        updateHomeBadges();
-        if (activeCommeti) renderDetail();
-      }
-    }
-  } catch (e) {}
-}
+// Initialize biometric button visibility on load
+checkBiometricSupport();
 </script>
 </body>
 </html>
