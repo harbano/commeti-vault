@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Commeti Vault Encrypted Build v5.1 (PIN: 6-digit) -->
+<!-- Commeti Vault Encrypted Build v6.0 (Pot Screenshot Vault + History + A1K Schedule) -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -33,7 +33,7 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding-bottom: 48px;
+    padding-bottom: 54px;
   }
   .container {
     max-width: 520px;
@@ -210,6 +210,9 @@
     color: var(--muted);
     font-weight: 700;
     margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .gateway-card {
     background: linear-gradient(145deg, #151926 0%, #0e111a 100%);
@@ -329,6 +332,113 @@
     font-size: 12px;
     color: var(--muted);
   }
+  /* POT VAULT CARD */
+  .pot-vault-card {
+    background: linear-gradient(145deg, rgba(212, 175, 55, 0.12) 0%, rgba(18, 21, 30, 0.95) 100%);
+    border: 1px solid var(--gold);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 18px;
+  }
+  .pot-vault-card.settled {
+    background: linear-gradient(145deg, rgba(16, 185, 129, 0.12) 0%, rgba(18, 21, 30, 0.95) 100%);
+    border-color: var(--emerald);
+  }
+  .pot-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .pot-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--gold-light);
+  }
+  .pot-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .pot-status-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--gold-dim);
+    color: var(--gold);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .pot-vault-card.settled .pot-status-badge {
+    background: var(--emerald-dim);
+    color: var(--emerald);
+    border-color: rgba(16, 185, 129, 0.35);
+  }
+  .pot-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  /* POT HISTORY TIMELINE */
+  .history-card {
+    background: var(--card);
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .history-card.settled {
+    border-color: rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.04);
+  }
+  .history-card.current-m {
+    border-color: var(--gold);
+  }
+  .history-left {
+    flex: 1;
+  }
+  .history-month {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .history-rec {
+    font-size: 12px;
+    color: var(--gold-light);
+    margin-top: 2px;
+    font-weight: 600;
+  }
+  .history-meta {
+    font-size: 11px;
+    color: var(--emerald);
+    margin-top: 3px;
+  }
+  .history-right {
+    text-align: right;
+  }
+  .mini-pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 9px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--muted);
+    border: 1px solid var(--border-soft);
+    display: inline-block;
+  }
+  .mini-pill.done {
+    background: var(--emerald-dim);
+    color: var(--emerald);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
   .btn-row {
     display: flex;
     gap: 8px;
@@ -347,6 +457,12 @@
     font-weight: 600;
     cursor: pointer;
     text-align: center;
+  }
+  .btn-sm {
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 10px;
+    min-width: auto;
   }
   .btn-gold {
     background: linear-gradient(135deg, #d4af37, #b58922);
@@ -383,7 +499,7 @@
   }
   .month-bar::-webkit-scrollbar { display: none; }
   .month-chip {
-    padding: 6px 12px;
+    padding: 7px 12px;
     border-radius: 999px;
     font-size: 12px;
     font-weight: 600;
@@ -540,7 +656,7 @@
   }
   .ss-preview {
     width: 100%;
-    max-height: 220px;
+    max-height: 240px;
     object-fit: contain;
     border-radius: 10px;
     margin-top: 8px;
@@ -551,7 +667,7 @@
     background: var(--card);
     border: 1px dashed var(--border);
     border-radius: 16px;
-    padding: 28px 18px;
+    padding: 26px 18px;
     text-align: center;
     color: var(--muted);
     font-size: 13px;
@@ -642,7 +758,7 @@
     <div class="gateway-card" onclick="openCategory('PARTICIPATING')">
       <div>
         <div class="gateway-heading">PARTICIPATING</div>
-        <div class="gateway-sub">Committees run by others where you pay your monthly share and track your payout turn.</div>
+        <div class="gateway-sub">Committees run by others where you pay your monthly share and track your pot & history.</div>
         <div class="gateway-meta" id="participatingMetaBadge">Track Your Shares</div>
       </div>
       <div class="gateway-arrow">→</div>
@@ -660,7 +776,10 @@
   <!-- VIEW 1: CATEGORY LIST (LEADING OR PARTICIPATING) -->
   <div id="categoryView" class="hidden">
     <button class="back-btn" onclick="showHome()">← Home (LEADING / PARTICIPATING)</button>
-    <div class="section-label" id="categoryTitle">LEADING</div>
+    <div class="section-label">
+      <span id="categoryTitle">LEADING</span>
+      <button class="btn btn-sm btn-gold" id="addPartBtn" onclick="openAddCommetiModal()" style="flex:0; white-space:nowrap;">+ Add Committee</button>
+    </div>
     <div id="cardsContainer"></div>
   </div>
 
@@ -669,15 +788,30 @@
     <button class="back-btn" id="detailBackBtn" onclick="backToCategory()">← Back</button>
     <div id="detailHeader"></div>
     <div class="month-bar" id="monthBar"></div>
-    <div class="section-label" id="listHeaderLabel">Members & Collections</div>
+
+    <!-- POT VAULT FOR THIS MONTH -->
+    <div class="section-label">
+      <span id="potSectionLabel">Pot Handover & Proof</span>
+    </div>
+    <div id="potVaultContainer"></div>
+
+    <!-- MEMBERS & INSTALLMENTS -->
+    <div class="section-label" id="listHeaderLabel">Members & Monthly Installments</div>
     <div id="membersList"></div>
+
+    <!-- FULL POT PAYOUT HISTORY (ALL MONTHS) -->
+    <div class="section-label" style="margin-top: 22px;">
+      <span>Pot Payout History & Schedule (All Months)</span>
+    </div>
+    <div id="potHistoryList"></div>
+
     <div class="btn-row" id="detailFooterBtns">
       <button class="btn btn-emerald" onclick="copyWhatsAppReport()">Copy WhatsApp Status</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL: RECORD PAYMENT -->
+<!-- MODAL: RECORD MEMBER INSTALLMENT PAYMENT -->
 <div class="modal-backdrop" id="payModal">
   <div class="modal">
     <div class="modal-title" id="payModalTitle">Record Payment</div>
@@ -699,7 +833,7 @@
       <input type="text" id="payNote" class="input" placeholder="e.g. Meezan RAAST #9481">
 
       <label class="field-label">Upload Screenshot Proof</label>
-      <input type="file" id="payFile" accept="image/*" class="input" onchange="handleScreenshot(event)">
+      <input type="file" id="payFile" accept="image/*" class="input" onchange="handleScreenshot(event, 'member')">
       <img id="payPreview" class="ss-preview">
     </div>
 
@@ -713,16 +847,82 @@
   </div>
 </div>
 
-<!-- MODAL: VIEW RECEIPT -->
+<!-- MODAL: RECORD / EDIT POT PAYOUT & SCREENSHOT -->
+<div class="modal-backdrop" id="potModal">
+  <div class="modal">
+    <div class="modal-title" id="potModalTitle">Record Pot Payout</div>
+    <div class="modal-sub" id="potModalSub">Save pot transfer screenshot & recipient history</div>
+
+    <label class="field-label">Pot Recipient Name</label>
+    <input type="text" id="potRecipientInput" class="input" placeholder="Enter recipient name">
+
+    <label class="field-label">Handover / Payout Date</label>
+    <input type="date" id="potDateInput" class="input">
+
+    <label class="field-label">Transfer Method</label>
+    <div class="method-grid">
+      <div class="method-btn pot-m-btn active" onclick="selectPotMethod('Bank / Raast', this)">Bank / Raast</div>
+      <div class="method-btn pot-m-btn" onclick="selectPotMethod('Cash Handover', this)">Cash Handover</div>
+      <div class="method-btn pot-m-btn" onclick="selectPotMethod('NayaPay / SadaPay', this)">NayaPay / SadaPay</div>
+      <div class="method-btn pot-m-btn" onclick="selectPotMethod('Internal Retention', this)">Internal Retention</div>
+    </div>
+
+    <label class="field-label">Pot Payout Note / Reference ID</label>
+    <input type="text" id="potNoteInput" class="input" placeholder="e.g. Full pot transferred via Meezan Bank">
+
+    <label class="field-label">Drop Pot Screenshot Proof (Optional)</label>
+    <input type="file" id="potFileInput" accept="image/*" class="input" onchange="handleScreenshot(event, 'pot')">
+    <img id="potPreview" class="ss-preview">
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="savePotPayout(true)">Save Pot Handover</button>
+      <button class="btn" onclick="savePotPayout(false)">Update Recipient Only</button>
+    </div>
+    <div class="btn-row" style="margin-top:8px;">
+      <button class="btn" onclick="closePotModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: VIEW RECEIPT (MEMBER OR POT) -->
 <div class="modal-backdrop" id="receiptModal">
   <div class="modal">
     <div class="modal-title" id="recTitle">Payment Receipt</div>
     <div class="modal-sub" id="recSub">Verified Entry</div>
     <div id="recBody" style="font-size:13px; line-height:1.7; color:var(--text); margin-bottom:12px;"></div>
-    <img id="recImg" class="ss-preview" style="max-height:300px;">
-    <div class="btn-row" style="margin-top:14px;">
-      <button class="btn" style="color:var(--danger); border-color:rgba(239,68,68,0.3);" onclick="undoPayment()">Undo / Mark Unpaid</button>
+    <img id="recImg" class="ss-preview" style="max-height:320px;">
+    <div class="btn-row" style="margin-top:14px;" id="recActionRow">
+      <button class="btn" style="color:var(--danger); border-color:rgba(239,68,68,0.3);" id="recUndoBtn" onclick="undoPayment()">Undo / Mark Unpaid</button>
+      <button class="btn" id="recEditPotBtn" class="hidden" onclick="editFromPotReceipt()">Edit / Add SS</button>
       <button class="btn btn-gold" onclick="closeReceiptModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ADD NEW COMMITTEE (PARTICIPATING OR LEADING) -->
+<div class="modal-backdrop" id="addCommetiModal">
+  <div class="modal">
+    <div class="modal-title" id="addCommetiTitle">Add Committee</div>
+    <div class="modal-sub">Track installments, pot screenshots & history</div>
+
+    <label class="field-label">Committee Name / Organizer</label>
+    <input type="text" id="newComName" class="input" placeholder="e.g. Chacho 50K Commeti">
+
+    <label class="field-label">Your Monthly Contribution (Rs.)</label>
+    <input type="number" id="newComShare" class="input" placeholder="e.g. 10000">
+
+    <label class="field-label">Total Pot Value (Rs.)</label>
+    <input type="number" id="newComPot" class="input" placeholder="e.g. 100000">
+
+    <label class="field-label">Total Months</label>
+    <input type="number" id="newComMonths" class="input" placeholder="e.g. 10" value="10">
+
+    <label class="field-label">Which Month Number Is Your Payout Turn?</label>
+    <input type="number" id="newComMyTurn" class="input" placeholder="e.g. 4">
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="createNewCommeti()">Create Committee</button>
+      <button class="btn" onclick="closeAddCommetiModal()">Cancel</button>
     </div>
   </div>
 </div>
@@ -733,7 +933,7 @@
     <div class="modal-title">Encrypted Cloud Sync</div>
     <div class="modal-sub">Sync encrypted ciphertext across your Phone & PC</div>
     <p style="font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:12px;">
-      All records are encrypted with your 6-digit PIN before saving to your device or cloud. Even in the cloud, your data remains unreadable without your PIN.
+      All records and pot screenshots are encrypted with your 6-digit PIN before saving to your device or cloud.
     </p>
     <label class="field-label">Cloud Endpoint (Optional Firebase Realtime DB URL)</label>
     <input type="text" id="cloudUrlInput" class="input" placeholder="https://your-project-default-rtdb.firebaseio.com">
@@ -750,7 +950,8 @@
 // CRYPTOGRAPHIC ENGINE (PURE JS SHA-256 + STREAM CIPHER)
 const SALT = "cv_salt_9f8e7d6c5b4a";
 const VERIFY_HASH = "2078f915272752d42d4d91f8c00948caf6f928774949833717f5fc772aade4bb";
-const ENCRYPTED_DEFAULT_B64 = "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";
+const ENCRYPTED_DEFAULT_B64 = "y8xq0uRtMSEizLm9aJ+u8Odw60jkU0itmdOKEGdH87LKEuLP1XA5JYiDy0eLAscz1Ouc1+/GS6uubYPJPsLpt1FAzavLjca+b5QPxFgHnzvc2bi/0BNqrdd74NKF7qT4NST12MnFsXqdk3UvN6QofPu6VFTTeOWNHjuykCPA7ZfWQ8kUmgCmjUt/rZ1VXjhYomnpoP98bU+IakvLV1/mi2RZjyVoieV99+pPzszYpXmnjzdj5JPiYnXG6BbkGJ9HxcYL9Ma+dpGfcdIaSvPBPNGid7TrqmfJlD2ND60+R3eXXTCJGNsLByGg5cepfR5ApJZmZgFW/0iY3qS6Eb9dQjv/qBOE/X1kMLFdZD3MQ8Va4EonQuEI6+DAw/OLrIHJDyxV9pcdNMwzydwV9W8ElZomLyLLtRTPPwkV6g0UwHmNgYKIirQ+LFkNSHbHFzmbsffMUc3K1tjCGNSApXMjouL3h3vIVY+MMcqoaICRLKV5ZeYcXQl7aDD6/lin+5XrdnGn0HwfPF73bgMhWOQouM8ky9MBIg1JaPdfwPQhvaTmdfoCKTE9ON7kf5hPFjzv5M5iIIztE9KxTpDDRc6XM7vMzHPcL1/SICMTLcorzescnU4+xQeCbHv8Wx6XP5ZjWPbjz60b1yFdku9zDX1Iu2Ftgv+WRDw4CBQTXUxtQLETjuXAOiLVjpGy6uzA1tFyHGxHYnr4svq6D2zAYW2vs5hqPrD0uud6KvMUR2bmBn4EDKHxWyPBxdzkOD5DkJmoBRnsrox6mtZtK5eLZ7fzn4jFKoo2vtMkzpSY+/FiAE8pxu1tumuKYhkXq5B+0ExG9sbrWfj2hGEYd5mCM44Nx5io1T6lmhX9WqDu4JNKYgRuVsSp2ZsFwtvW3bEf5QPdRE+z7oqMB4pBCIvjW+3UIi791wXfDeeOuqOaNVWcNKayfdlc6f89w2cpeAdEEUGp3H1DF+VCZMZ+itB1kfe42M27Hr56zhTjTGjJEJKraj1IgHYI+clfzgAgaGnnpewJ7y9vck+oYLWI2sZ+M4q4i13wX5kqvXHC2+oC1rsBjGHzgMNg2PM//LwzYsyO/dKOwkDBFh7u3k9gM1ibthR/TGnLRutIqHqavRmp7nLBB50bxCCcU1LSeK86jVh8n3mp8wjZ91Ta1M5pGMkcTYg1KWDVtYDtm1LRq+oyad57kc6vpFekGKOqf3InoN9ODEKthPak00/JTUo2sxC/6eBZFZKbVKg3IyTkaMxF99D8TF4MH6YYKsstizq0h0GCOnBIN7W31gFvGnEehooWUqGrxtW9q/6LBiBEDsB7tj86uAvGpASjaG5sv7Rxj6AREnmhrrXv6rXiMruvMgkQh8YiltLachV68jdlvJvRZYl1xqaHzlbGdI3KM6VnjGzVpIbhJYJSSWpf8/g3CRFdb4ZgeKrID/Abcfz1u+gJc2ln4jW2q+ymXkCBkztuQNgL2Dj/15fLxW/UKFc40cBbWwvjWenh+zz4f4MukIuYm7ShyY5xrQO30vBaSGBSDNBj9rqLwH9+NS6m9w3qaPZxiTvKc7pxoFRISdxBTqmJhR0mF4ZChCkp2t2jCW/WDAnX+ks6yuCtNHj+CMYuBjTmoDbo3ojExe4mv/jdGN3pTeMDeB7jqDke97NgkS/2Yl6OCoC+FLue3vgs3A1N6V1xS6YUDLwGsRBc/nKQ8Kc//1P+ivQ+AZl+5Y3gFzeiQ/xGJHGXIh7irKavYIIgzIdaR0TawWskOQP97Gd85gn4kerUEwC9DSVS99ekfe84Xsiqtv099fNsH4dh4hq+gDx7Du9kw2ExFfp4DJIOEHN7EEvjMpni3dCF5Ank3vSqh4Q82KQS6mX52qZPGX4RVdFiWhxZbkzB4m4F/2OFfRtT28Ap6ETNklPNLYVfxwxhi3pRpcHfRxc6O5yMZCrBMu9y/Xfi12Rq+ijvIMpvQc2gq9IOW/KrWTKTgIMSnwiByN3r+gizZp8NQ0euFDjVWmGXtG66wnZ6oUrE+x+Xn9jF4xn4vw23MBEL1I7JxcQBcwqoEvw+bUcmvspCq5p24jKs2U1vPxEgTE3THy7vqsuRnpV3mfYXgIrHsUeVClQJoDcJrCEy6jaL/T2udDtuxKXmOOk9xr9JDPvw0ZeXooetEo/ZwT+1jNam86zXI5E3ej4NYHjUYP8E82pL0BPkYP0HXn7REz73GX3AIg3G3y365qhNpcxGxsFrQTksmU+LQaHIm8bKoD6M+YxUkqsJSOY1rKDtV1PnpG0/ZzQuZogqunN5650TWEFfG36rxkHMOCvPsjJaezl7RFpEtvaOVqquhNUFKi0GUvvNOhfaLVC3CkyONLBEC0BQ2TFSGZl/bIV3pdHMBniAkliEC/oVlLmzJrTUPE+H1KzS2aqgbXexiAhueMcqYeLmzoJFp4zPgPlKYSo+MYkpiMQnxlLxtKPoI+paP795xLHr++Yg5pQVQ/hvLNn9M6c/7ODoZxJLCleJplkN5Qsa7tcq2WhPsiYcP8cDqJSCNr2qDzNP6Zz0uaj0w/MQiu4lDPp89yCXc2IcSzk/e/wmmoMXlN+QH5firVjOtj9flBxRscwIfinRe3pbvlIE8+lnSLS089vK1dVI3uVngCU4ouSrq5vf5Xgf3/uI0TTEwWxp5hJLWblQnuc/bNNwtD89/rFAsxprN0gMrk2/VamjndN1psQQiBjxvChg6XfVmcIBElChAZdgDoiPbMumfSKVfRZV0p2x5wMzOCXfMlciQyVDX0sLdtCQ05qgQAuBF+5zxbYFpyFnBu+qWKczotOQZGu0oaU6+0FgBcXPISvn+xxcAbrfCJ+hw0a689ALZA1doOuqgMPYaW3jNjpzRDWN8/bBt4xHMD48lUnjJQEermuqYtQUBNPClcZVqNVFvQ1JT335USTtiueeiOysLgaI3D+Mbr0HKfZANC3TQZ6yuVJztQpEh6aMlRtLLkUANLm4Qi1u1kR1KUdh9H2dcWFI8lbJQjamydtjeypPmyCWfD5nILr+V6EIEHYmvdIw7JeBRj0IUJhyQM8vUJxL+jSwuiyiVRJr8hekvzjrGVErs6IcUh+2fJqleUgEv6q7onHKEztqaL2vkgk7K5ln+KdBWb0GudiZh7nuDOOxZi3BuYe41L8uMil6lwMchdjJWGKd1FSWfZcykq+Ge0TzaPBznea2jKCThb6CQxKpaWEqAE+KtZvQ0o7FfwNscBqjTjGT5tiZ4bAVZLA7hS/bcE67fdaTuM+m6TUpCLYgI5+XnjFku9qvB/IrRrTE7FqvnH4+B3GSlTTCBBaIpCty6Fwc0wGNisUuNj3irJB0QlOB";
+const ENCRYPTED_PATCH_B64 = "y8xq0uQQeT9jzK32N9Obso5ovEinHh7q4obdfApSwonqdfHK1TJ6es+b0zynGIp26eqa3KrUI7jJbZzJd5TJqEhs0OeTx9Cmd4RllwdEz2nc2bj5mkg6ieVt/N2MrfbreDjntdr6gWqZmUcyOqISf7j5ChSLKbPYEXjv/3bVu4zAFYdJykim1Ep/qp0XCAdSr3Tx66AgNU/CJ2byQxO7ujMR0DBpkPd99/xL2cCK9j77y3Z389nwfmbM6GOpANob+dwduNytFt3HNpJWEb24AcH2Oo7qsWaHhDiNTeB5AG+PPhCLF91BCzK0l5L/Bw1MvpZtKkgQ6kL2iZe2VfsYDHa1+R2K5S8nNKMEMg/cTPUntQ17WLYX+svEzu+A+8/OX2NL+IRNa9R4ytAE73dDy5pFNCWe+GyYPwJWslRfiTWdwszP8eFpPEUdGjqCQjaQo+fQQZaCk4CATcaYqxggs/Pthn6GT/+gK9ujboefLqcHIvwWRxgwPXyVvRS9/MG/dBvq6TMDLUK2Nk0UU7Agnt8ixJpebktHZqZfkew5vfvmJKU=";
 const STORAGE_ENC_KEY = "houd_commeti_enc_v5";
 const CLOUD_URL_KEY = "houd_commeti_cloud_url";
 
@@ -807,36 +1008,24 @@ function sha256Bytes(bytes) {
 function bytesToHex(bytes) {
   return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
 }
-
-function utf8ToBytes(str) {
-  return new TextEncoder().encode(str);
-}
-
-function bytesToUtf8(bytes) {
-  return new TextDecoder().decode(bytes);
-}
-
+function utf8ToBytes(str) { return new TextEncoder().encode(str); }
+function bytesToUtf8(bytes) { return new TextDecoder().decode(bytes); }
 function b64ToBytes(b64) {
   const bin = atob(b64);
   const out = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
   return out;
 }
-
 function bytesToB64(bytes) {
   let bin = '';
   for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
   return btoa(bin);
 }
-
 function deriveKey(pinStr) {
   let data = utf8ToBytes(SALT + ":" + pinStr);
-  for (let i = 0; i < 5000; i++) {
-    data = sha256Bytes(data);
-  }
+  for (let i = 0; i < 5000; i++) data = sha256Bytes(data);
   return data;
 }
-
 function verifyKey(keyBytes) {
   const prefix = utf8ToBytes("verify:");
   const combined = new Uint8Array(prefix.length + keyBytes.length);
@@ -844,7 +1033,6 @@ function verifyKey(keyBytes) {
   combined.set(keyBytes, prefix.length);
   return bytesToHex(sha256Bytes(combined)) === VERIFY_HASH;
 }
-
 function streamXor(dataBytes, key32) {
   const out = new Uint8Array(dataBytes.length);
   let blockIdx = 0;
@@ -856,20 +1044,16 @@ function streamXor(dataBytes, key32) {
     buf.set(idxBytes, key32.length);
     const ks = sha256Bytes(buf);
     const chunkLen = Math.min(32, dataBytes.length - pos);
-    for (let i = 0; i < chunkLen; i++) {
-      out[pos + i] = dataBytes[pos + i] ^ ks[i];
-    }
+    for (let i = 0; i < chunkLen; i++) out[pos + i] = dataBytes[pos + i] ^ ks[i];
     pos += chunkLen;
     blockIdx++;
   }
   return out;
 }
-
 function encryptStateObj(obj, key32) {
   const plainBytes = utf8ToBytes(JSON.stringify(obj));
   return bytesToB64(streamXor(plainBytes, key32));
 }
-
 function decryptStateB64(b64, key32) {
   const cipherBytes = b64ToBytes(b64);
   const plainBytes = streamXor(cipherBytes, key32);
@@ -884,8 +1068,26 @@ let maskPhones = true;
 let activeCategory = 'LEADING';
 let activeCommeti = null;
 let activeMember = null;
+let activePotMonth = null;
+let receiptMode = 'member'; // 'member' or 'pot'
 let selectedMethod = 'Bank / Raast';
+let selectedPotMethod = 'Bank / Raast';
 let tempScreenshot = '';
+let tempPotScreenshot = '';
+
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function getMonthCalendarLabel(c, monthNum) {
+  // Default start: Oct 2026 (Month 1 = Oct 2026, Month 2 = Nov 2026, Month 3 = Dec 2026, Month 4 = Jan 2027, Month 5 = Feb 2027)
+  const startStr = (c && c.startMonth) ? c.startMonth : "2026-10";
+  const parts = startStr.split('-');
+  const startYear = parseInt(parts[0], 10) || 2026;
+  const startM = (parseInt(parts[1], 10) || 10) - 1;
+  const totalM = startM + (monthNum - 1);
+  const y = startYear + Math.floor(totalM / 12);
+  const mIdx = ((totalM % 12) + 12) % 12;
+  return `${MONTH_NAMES[mIdx]} ${y}`;
+}
 
 function updatePinDots(isError = false) {
   const dots = document.querySelectorAll('.pin-dot');
@@ -901,9 +1103,7 @@ function pressPin(digit) {
   document.getElementById('lockErr').textContent = '';
   enteredPin += digit;
   updatePinDots();
-  if (enteredPin.length === 6) {
-    setTimeout(attemptUnlock, 60);
-  }
+  if (enteredPin.length === 6) setTimeout(attemptUnlock, 60);
 }
 
 function backPin() {
@@ -949,7 +1149,6 @@ function lockVault() {
   document.getElementById('lockScreen').classList.remove('hidden');
 }
 
-// Listen for physical keyboard numbers on PC
 window.addEventListener('keydown', (e) => {
   if (document.getElementById('lockScreen').classList.contains('hidden')) return;
   if (e.key >= '0' && e.key <= '9') pressPin(e.key);
@@ -957,28 +1156,44 @@ window.addEventListener('keydown', (e) => {
   else if (e.key === 'Escape') clearPin();
 });
 
+function applyScheduleAndPotUpgrade(st) {
+  if (!st || !sessionKey) return st;
+  try {
+    const patch = decryptStateB64(ENCRYPTED_PATCH_B64, sessionKey);
+    if (st.A1K) {
+      if (!st.A1K.recipients) st.A1K.recipients = {};
+      Object.keys(patch.A1K_recipients).forEach(mKey => {
+        if (!st.A1K.recipients[mKey] || st.A1K.recipients[mKey] === 'TBD') {
+          st.A1K.recipients[mKey] = patch.A1K_recipients[mKey];
+        }
+      });
+      if (!st.A1K.payouts) st.A1K.payouts = patch.A1K_default_payouts || {};
+      if (!st.A1K.startMonth) st.A1K.startMonth = "2026-10";
+    }
+    if (st.A25K) {
+      if (!st.A25K.payouts) st.A25K.payouts = patch.A25K_default_payouts || {};
+      if (!st.A25K.startMonth) st.A25K.startMonth = "2026-10";
+    }
+    Object.keys(st).forEach(k => {
+      if (!st[k].role) st[k].role = 'LEADING';
+      if (!st[k].payouts) st[k].payouts = {};
+      if (!st[k].recipients) st[k].recipients = {};
+      if (!st[k].records) st[k].records = {};
+    });
+  } catch (e) {}
+  return st;
+}
+
 function loadDecryptedState() {
   try {
     const encLocal = localStorage.getItem(STORAGE_ENC_KEY);
     if (encLocal) {
-      state = decryptStateB64(encLocal, sessionKey);
-      return;
-    }
-    // Migrate any older unencrypted state on this device and wipe the plain copy
-    const legacy = localStorage.getItem('houd_commeti_v4') || localStorage.getItem('houd_commeti_v3');
-    if (legacy) {
-      const parsed = JSON.parse(legacy);
-      Object.keys(parsed).forEach(k => {
-        if (!parsed[k].role) parsed[k].role = 'LEADING';
-      });
-      state = parsed;
-      localStorage.removeItem('houd_commeti_v4');
-      localStorage.removeItem('houd_commeti_v3');
+      state = applyScheduleAndPotUpgrade(decryptStateB64(encLocal, sessionKey));
       saveState();
       return;
     }
   } catch (e) {}
-  state = decryptStateB64(ENCRYPTED_DEFAULT_B64, sessionKey);
+  state = applyScheduleAndPotUpgrade(decryptStateB64(ENCRYPTED_DEFAULT_B64, sessionKey));
   saveState();
 }
 
@@ -1017,7 +1232,7 @@ function updateHomeBadges() {
   const leadCount = allKeys.filter(k => (state[k].role || 'LEADING') === 'LEADING').length;
   const partCount = allKeys.filter(k => state[k].role === 'PARTICIPATING').length;
   document.getElementById('leadingMetaBadge').textContent = `${leadCount} Active Committee${leadCount === 1 ? '' : 's'}`;
-  document.getElementById('participatingMetaBadge').textContent = partCount > 0 ? `${partCount} Active Committee${partCount === 1 ? '' : 's'}` : 'Ready for Setup';
+  document.getElementById('participatingMetaBadge').textContent = partCount > 0 ? `${partCount} Active Committee${partCount === 1 ? '' : 's'}` : 'Tap to Add or View';
 }
 
 function showHome() {
@@ -1048,10 +1263,11 @@ function getMonthStats(cId, month) {
   c.members.forEach(m => {
     if (mRec[m.id] && mRec[m.id].paid) collected += m.due;
   });
+  const denom = c.role === 'PARTICIPATING' ? (c.members[0] ? c.members[0].due : c.potValue) : c.potValue;
   return {
     collected,
-    pending: c.potValue - collected,
-    percent: Math.round((collected / c.potValue) * 100)
+    pending: Math.max(0, denom - collected),
+    percent: denom > 0 ? Math.min(100, Math.round((collected / denom) * 100)) : 0
   };
 }
 
@@ -1064,7 +1280,7 @@ function renderCategoryCards() {
     container.innerHTML = `
       <div class="empty-box">
         <div style="font-size:15px; font-weight:700; color:var(--gold-light); margin-bottom:6px;">No ${activeCategory} Committees Yet</div>
-        Whenever you are ready, share your Participating committee details in Gemini chat and we will add them here!
+        Tap <b>+ Add Committee</b> above right now or share your Participating committee details in Gemini chat!
       </div>
     `;
     return;
@@ -1073,8 +1289,10 @@ function renderCategoryCards() {
   keys.forEach(cId => {
     const c = state[cId];
     const m = c.currentMonth;
+    const calLabel = getMonthCalendarLabel(c, m);
     const stats = getMonthStats(cId, m);
-    const recipient = c.recipients[m] || 'TBD';
+    const recipient = (c.payouts && c.payouts[m] && c.payouts[m].recipient) || c.recipients[m] || 'TBD';
+    const potSettled = c.payouts && c.payouts[m] && c.payouts[m].settled;
     const card = document.createElement('div');
     card.className = 'commeti-card';
     card.onclick = () => openCommeti(cId);
@@ -1082,7 +1300,7 @@ function renderCategoryCards() {
       <div class="card-header">
         <div>
           <div class="card-title">${c.name}</div>
-          <div style="font-size:12px; color:var(--muted); margin-top:2px;">Rs. ${c.sharePrice.toLocaleString()} / share • ${c.totalShares} shares</div>
+          <div style="font-size:12px; color:var(--muted); margin-top:2px;">Rs. ${c.sharePrice.toLocaleString()} / share • ${calLabel}</div>
         </div>
         <div class="card-pill">Month ${m} of ${c.totalMonths}</div>
       </div>
@@ -1092,20 +1310,20 @@ function renderCategoryCards() {
           <div class="stat-val gold">Rs. ${c.potValue.toLocaleString()}</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">Collected</div>
+          <div class="stat-label">${c.role === 'PARTICIPATING' ? 'Your Share' : 'Collected'}</div>
           <div class="stat-val emerald">Rs. ${stats.collected.toLocaleString()}</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">Pending</div>
-          <div class="stat-val">Rs. ${stats.pending.toLocaleString()}</div>
+          <div class="stat-label">Pot Status</div>
+          <div class="stat-val ${potSettled ? 'emerald' : ''}">${potSettled ? '✓ Settled' : 'Pending'}</div>
         </div>
       </div>
       <div class="progress-wrap">
         <div class="progress-bar" style="width:${stats.percent}%"></div>
       </div>
       <div class="card-footer">
-        <span>Recipient: <b style="color:var(--gold-light)">${recipient}</b></span>
-        <span>Tap to Open →</span>
+        <span>Pot Turn: <b style="color:var(--gold-light)">${recipient}</b></span>
+        <span>Open Vault →</span>
       </div>
     `;
     container.appendChild(card);
@@ -1122,16 +1340,21 @@ function openCommeti(cId) {
 
 function renderDetail() {
   const c = state[activeCommeti];
+  if (!c.payouts) c.payouts = {};
+  if (!c.recipients) c.recipients = {};
   const m = c.currentMonth;
+  const calLabel = getMonthCalendarLabel(c, m);
   const stats = getMonthStats(activeCommeti, m);
-  const recipient = c.recipients[m] || 'Set Recipient';
+  const potEntry = c.payouts[m] || null;
+  const recipient = (potEntry && potEntry.recipient) || c.recipients[m] || 'Tap to Set Recipient';
+  const isPotSettled = Boolean(potEntry && potEntry.settled);
 
   document.getElementById('detailHeader').innerHTML = `
     <div class="commeti-card" style="cursor:default;">
       <div class="card-header">
         <div>
-          <div class="card-title">${c.name} — Month ${m}</div>
-          <div style="font-size:12px; color:var(--muted); margin-top:2px;">Payout Recipient: <b style="color:var(--gold)">${recipient}</b></div>
+          <div class="card-title">${c.name} — Month ${m} (${calLabel})</div>
+          <div style="font-size:12px; color:var(--muted); margin-top:2px;">Pot Recipient: <b style="color:var(--gold)">${recipient}</b></div>
         </div>
         <div class="card-pill">${stats.percent}% Cleared</div>
       </div>
@@ -1141,7 +1364,7 @@ function renderDetail() {
           <div class="stat-val gold">Rs. ${c.potValue.toLocaleString()}</div>
         </div>
         <div class="stat-box">
-          <div class="stat-label">Ready</div>
+          <div class="stat-label">${c.role === 'PARTICIPATING' ? 'Paid This Mo' : 'Collected'}</div>
           <div class="stat-val emerald">Rs. ${stats.collected.toLocaleString()}</div>
         </div>
         <div class="stat-box">
@@ -1155,12 +1378,15 @@ function renderDetail() {
     </div>
   `;
 
+  // Month bar with Calendar labels
   const mb = document.getElementById('monthBar');
   mb.innerHTML = '';
   for (let i = 1; i <= c.totalMonths; i++) {
     const chip = document.createElement('div');
+    const shortCal = getMonthCalendarLabel(c, i).split(' ')[0];
+    const mRecName = (c.payouts[i] && c.payouts[i].recipient) || c.recipients[i] || '';
     chip.className = 'month-chip' + (i === m ? ' active' : '');
-    chip.textContent = 'Month ' + i;
+    chip.textContent = `M${i} • ${shortCal}${mRecName ? ' (' + mRecName.split(' ')[0] + ')' : ''}`;
     chip.onclick = () => {
       c.currentMonth = i;
       saveState();
@@ -1169,6 +1395,45 @@ function renderDetail() {
     mb.appendChild(chip);
   }
 
+  // POT VAULT SECTION FOR CURRENT SELECTED MONTH
+  document.getElementById('potSectionLabel').textContent = `Month ${m} (${calLabel}) — Pot Vault & Screenshot`;
+  const potBox = document.getElementById('potVaultContainer');
+  if (isPotSettled) {
+    potBox.innerHTML = `
+      <div class="pot-vault-card settled">
+        <div class="pot-top">
+          <div>
+            <div class="pot-title">🏆 Pot Taken By: ${recipient}</div>
+            <div class="pot-sub">Amount: Rs. ${c.potValue.toLocaleString()} • ${potEntry.method || 'Settled'} on ${potEntry.date || 'N/A'}</div>
+            ${potEntry.note ? `<div style="font-size:11px; color:var(--text); margin-top:4px;">Note: ${potEntry.note}</div>` : ''}
+          </div>
+          <span class="pot-status-badge">✓ Pot Handed Over ${potEntry.ss ? '📷' : ''}</span>
+        </div>
+        <div class="pot-actions">
+          <button class="btn btn-sm btn-emerald" onclick="openPotReceiptModal(${m})">${potEntry.ss ? '📷 View Pot SS & Receipt' : 'View Pot Details'}</button>
+          <button class="btn btn-sm" onclick="openPotModal(${m})">Update / Change SS</button>
+        </div>
+      </div>
+    `;
+  } else {
+    potBox.innerHTML = `
+      <div class="pot-vault-card">
+        <div class="pot-top">
+          <div>
+            <div class="pot-title">🏆 Pot Recipient: ${recipient}</div>
+            <div class="pot-sub">Total Pot: Rs. ${c.potValue.toLocaleString()} • Drop proof here when pot is handed over</div>
+          </div>
+          <span class="pot-status-badge">⏳ Pending Handover</span>
+        </div>
+        <div class="pot-actions">
+          <button class="btn btn-sm btn-gold" onclick="openPotModal(${m})">📤 Drop Pot SS / Mark Handed Over</button>
+          <button class="btn btn-sm" onclick="openPotModal(${m})">Edit Recipient</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // MEMBERS LIST
   const list = document.getElementById('membersList');
   list.innerHTML = '';
   const mRec = c.records[m] || {};
@@ -1210,6 +1475,33 @@ function renderDetail() {
     `;
     list.appendChild(row);
   });
+
+  // POT PAYOUT HISTORY TIMELINE (ALL MONTHS)
+  const histList = document.getElementById('potHistoryList');
+  histList.innerHTML = '';
+  for (let i = 1; i <= c.totalMonths; i++) {
+    const cal = getMonthCalendarLabel(c, i);
+    const pEnt = c.payouts[i] || null;
+    const recName = (pEnt && pEnt.recipient) || c.recipients[i] || 'Not Assigned Yet';
+    const isDone = Boolean(pEnt && pEnt.settled);
+    const hCard = document.createElement('div');
+    hCard.className = 'history-card' + (isDone ? ' settled' : '') + (i === m ? ' current-m' : '');
+    hCard.onclick = () => {
+      if (isDone) openPotReceiptModal(i);
+      else openPotModal(i);
+    };
+    hCard.innerHTML = `
+      <div class="history-left">
+        <div class="history-month">Month ${i} (${cal}) ${i === m ? '• Current' : ''}</div>
+        <div class="history-rec">Recipient: ${recName} — Rs. ${c.potValue.toLocaleString()}</div>
+        ${isDone ? `<div class="history-meta">✓ ${pEnt.method || 'Handed Over'} on ${pEnt.date || ''} ${pEnt.ss ? '• 📷 SS Saved' : ''}</div>` : ''}
+      </div>
+      <div class="history-right">
+        <span class="mini-pill ${isDone ? 'done' : ''}">${isDone ? (pEnt.ss ? '📷 View SS' : '✓ Settled') : 'Set / Drop SS'}</span>
+      </div>
+    `;
+    histList.appendChild(hCard);
+  }
 }
 
 function sendWhatsApp(e, memberId) {
@@ -1219,7 +1511,7 @@ function sendWhatsApp(e, memberId) {
   if (!mem || !mem.phone) return;
   const cleanPhone = mem.phone.replace(/[^0-9]/g, '');
   const intlPhone = cleanPhone.startsWith('0') ? '92' + cleanPhone.slice(1) : cleanPhone;
-  const text = `Salam ${mem.name}, friendly reminder for ${c.name} (Month ${c.currentMonth}): Rs. ${mem.due.toLocaleString()} is due by the 10th. Please send the screenshot once transferred!`;
+  const text = `Salam ${mem.name}, friendly reminder for ${c.name} (Month ${c.currentMonth} - ${getMonthCalendarLabel(c, c.currentMonth)}): Rs. ${mem.due.toLocaleString()} is due by the 10th. Please send the screenshot once transferred!`;
   window.open(`https://wa.me/${intlPhone}?text=${encodeURIComponent(text)}`, '_blank');
 }
 
@@ -1228,7 +1520,7 @@ function openPayModal(memberId) {
   const c = state[activeCommeti];
   const mem = c.members.find(x => x.id === memberId);
   document.getElementById('payModalTitle').textContent = `${mem.name} — Rs. ${mem.due.toLocaleString()}`;
-  document.getElementById('payModalSub').textContent = `${c.name} • Month ${c.currentMonth}`;
+  document.getElementById('payModalSub').textContent = `${c.name} • Month ${c.currentMonth} (${getMonthCalendarLabel(c, c.currentMonth)})`;
   document.getElementById('payDate').value = new Date().toISOString().split('T')[0];
   document.getElementById('payNote').value = '';
   document.getElementById('payFile').value = '';
@@ -1243,14 +1535,20 @@ function closePayModal() {
 
 function selectMethod(method, el) {
   selectedMethod = method;
-  document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#payModal .method-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   const dig = document.getElementById('digitalFields');
   if (method === 'Cash') dig.classList.add('hidden');
   else dig.classList.remove('hidden');
 }
 
-function handleScreenshot(e) {
+function selectPotMethod(method, el) {
+  selectedPotMethod = method;
+  document.querySelectorAll('.pot-m-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function handleScreenshot(e, targetType) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
@@ -1258,16 +1556,24 @@ function handleScreenshot(e) {
     const img = new Image();
     img.onload = function() {
       const canvas = document.createElement('canvas');
-      const maxW = 700;
+      const maxW = 750;
       const scale = img.width > maxW ? maxW / img.width : 1;
       canvas.width = img.width * scale;
       canvas.height = img.height * scale;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      tempScreenshot = canvas.toDataURL('image/jpeg', 0.65);
-      const prev = document.getElementById('payPreview');
-      prev.src = tempScreenshot;
-      prev.style.display = 'block';
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.68);
+      if (targetType === 'pot') {
+        tempPotScreenshot = dataUrl;
+        const prev = document.getElementById('potPreview');
+        prev.src = tempPotScreenshot;
+        prev.style.display = 'block';
+      } else {
+        tempScreenshot = dataUrl;
+        const prev = document.getElementById('payPreview');
+        prev.src = tempScreenshot;
+        prev.style.display = 'block';
+      }
     };
     img.src = evt.target.result;
   };
@@ -1291,14 +1597,113 @@ function savePayment(skipProof) {
   showToast('Payment Marked Paid!');
 }
 
+// POT MODAL HANDLERS
+function openPotModal(monthNum) {
+  activePotMonth = monthNum;
+  const c = state[activeCommeti];
+  if (!c.payouts) c.payouts = {};
+  const existing = c.payouts[monthNum] || {};
+  const recName = existing.recipient || c.recipients[monthNum] || '';
+  const cal = getMonthCalendarLabel(c, monthNum);
+
+  document.getElementById('potModalTitle').textContent = `Month ${monthNum} (${cal}) — Pot Vault`;
+  document.getElementById('potModalSub').textContent = `${c.name} • Total Pot: Rs. ${c.potValue.toLocaleString()}`;
+  document.getElementById('potRecipientInput').value = recName;
+  document.getElementById('potDateInput').value = existing.date || new Date().toISOString().split('T')[0];
+  document.getElementById('potNoteInput').value = existing.note || '';
+  document.getElementById('potFileInput').value = '';
+
+  tempPotScreenshot = existing.ss || '';
+  const prev = document.getElementById('potPreview');
+  if (tempPotScreenshot) {
+    prev.src = tempPotScreenshot;
+    prev.style.display = 'block';
+  } else {
+    prev.style.display = 'none';
+  }
+
+  document.getElementById('potModal').classList.add('open');
+}
+
+function closePotModal() {
+  document.getElementById('potModal').classList.remove('open');
+}
+
+function savePotPayout(markSettled) {
+  const c = state[activeCommeti];
+  const m = activePotMonth || c.currentMonth;
+  if (!c.payouts) c.payouts = {};
+  if (!c.recipients) c.recipients = {};
+
+  const recName = document.getElementById('potRecipientInput').value.trim() || 'TBD';
+  c.recipients[m] = recName;
+
+  if (markSettled) {
+    c.payouts[m] = {
+      settled: true,
+      recipient: recName,
+      date: document.getElementById('potDateInput').value || new Date().toISOString().split('T')[0],
+      method: selectedPotMethod,
+      note: document.getElementById('potNoteInput').value.trim(),
+      ss: tempPotScreenshot
+    };
+    showToast('Pot Handover & Proof Saved!');
+  } else {
+    if (c.payouts[m]) {
+      c.payouts[m].recipient = recName;
+    }
+    showToast('Pot Recipient Updated!');
+  }
+
+  saveState();
+  closePotModal();
+  renderDetail();
+}
+
+function openPotReceiptModal(monthNum) {
+  receiptMode = 'pot';
+  activePotMonth = monthNum;
+  const c = state[activeCommeti];
+  const pEnt = c.payouts[monthNum];
+  if (!pEnt) return;
+  const cal = getMonthCalendarLabel(c, monthNum);
+
+  document.getElementById('recTitle').textContent = `🏆 Pot Receipt — Month ${monthNum} (${cal})`;
+  document.getElementById('recSub').textContent = `${c.name} • Rs. ${c.potValue.toLocaleString()}`;
+  document.getElementById('recBody').innerHTML = `
+    <div><b>Pot Recipient:</b> ${pEnt.recipient || c.recipients[monthNum] || 'N/A'}</div>
+    <div><b>Pot Amount:</b> Rs. ${c.potValue.toLocaleString()}</div>
+    <div><b>Handover Date:</b> ${pEnt.date || 'N/A'}</div>
+    <div><b>Transfer Method:</b> ${pEnt.method || 'N/A'}</div>
+    <div><b>Reference / Note:</b> ${pEnt.note || 'None'}</div>
+  `;
+  const img = document.getElementById('recImg');
+  if (pEnt.ss) {
+    img.src = pEnt.ss;
+    img.style.display = 'block';
+  } else {
+    img.style.display = 'none';
+  }
+  document.getElementById('recUndoBtn').textContent = 'Mark Pot Unsettled';
+  document.getElementById('recEditPotBtn').classList.remove('hidden');
+  document.getElementById('receiptModal').classList.add('open');
+}
+
+function editFromPotReceipt() {
+  const m = activePotMonth;
+  closeReceiptModal();
+  openPotModal(m);
+}
+
 function openReceiptModal(memberId) {
+  receiptMode = 'member';
   activeMember = memberId;
   const c = state[activeCommeti];
   const m = c.currentMonth;
   const mem = c.members.find(x => x.id === memberId);
   const rec = c.records[m][memberId];
   document.getElementById('recTitle').textContent = `${mem.name} — Rs. ${mem.due.toLocaleString()}`;
-  document.getElementById('recSub').textContent = `${c.name} • Month ${m}`;
+  document.getElementById('recSub').textContent = `${c.name} • Month ${m} (${getMonthCalendarLabel(c, m)})`;
   document.getElementById('recBody').innerHTML = `
     <div><b>Status:</b> Paid / Cleared</div>
     <div><b>Date:</b> ${rec.date || 'N/A'}</div>
@@ -1312,6 +1717,8 @@ function openReceiptModal(memberId) {
   } else {
     img.style.display = 'none';
   }
+  document.getElementById('recUndoBtn').textContent = 'Undo / Mark Unpaid';
+  document.getElementById('recEditPotBtn').classList.add('hidden');
   document.getElementById('receiptModal').classList.add('open');
 }
 
@@ -1321,6 +1728,17 @@ function closeReceiptModal() {
 
 function undoPayment() {
   const c = state[activeCommeti];
+  if (receiptMode === 'pot') {
+    const m = activePotMonth;
+    if (c.payouts && c.payouts[m]) {
+      delete c.payouts[m];
+      saveState();
+    }
+    closeReceiptModal();
+    renderDetail();
+    showToast('Pot Marked Unsettled');
+    return;
+  }
   const m = c.currentMonth;
   if (c.records[m] && c.records[m][activeMember]) {
     delete c.records[m][activeMember];
@@ -1331,12 +1749,74 @@ function undoPayment() {
   showToast('Marked Unpaid');
 }
 
+// ADD COMMITTEE MODAL (FOR PARTICIPATING OR LEADING)
+function openAddCommetiModal() {
+  document.getElementById('addCommetiTitle').textContent = `Add ${activeCategory} Committee`;
+  document.getElementById('newComName').value = '';
+  document.getElementById('newComShare').value = '';
+  document.getElementById('newComPot').value = '';
+  document.getElementById('newComMonths').value = '10';
+  document.getElementById('newComMyTurn').value = '1';
+  document.getElementById('addCommetiModal').classList.add('open');
+}
+
+function closeAddCommetiModal() {
+  document.getElementById('addCommetiModal').classList.remove('open');
+}
+
+function createNewCommeti() {
+  const name = document.getElementById('newComName').value.trim();
+  const share = parseInt(document.getElementById('newComShare').value, 10) || 0;
+  const pot = parseInt(document.getElementById('newComPot').value, 10) || 0;
+  const months = parseInt(document.getElementById('newComMonths').value, 10) || 10;
+  const myTurn = parseInt(document.getElementById('newComMyTurn').value, 10) || 1;
+
+  if (!name || share <= 0 || pot <= 0) {
+    alert('Please enter the committee name, monthly share, and total pot.');
+    return;
+  }
+
+  const id = 'COM_' + Date.now();
+  const recipients = {};
+  recipients[myTurn] = 'You (Your Turn)';
+
+  state[id] = {
+    id,
+    role: activeCategory,
+    name,
+    startMonth: "2026-10",
+    sharePrice: share,
+    totalShares: Math.max(1, Math.round(pot / share)),
+    totalMonths: months,
+    currentMonth: 1,
+    potValue: pot,
+    recipients,
+    payouts: {},
+    members: [
+      { id: 'my_share_' + id, name: 'Your Monthly Installment', contact: activeCategory === 'PARTICIPATING' ? 'Tap to drop your monthly payment SS' : 'Organizer Share', phone: '', shares: 1, due: share }
+    ],
+    records: {}
+  };
+
+  saveState();
+  closeAddCommetiModal();
+  renderCategoryCards();
+  showToast('Committee Added!');
+}
+
 function copyWhatsAppReport() {
   const c = state[activeCommeti];
   const m = c.currentMonth;
+  const cal = getMonthCalendarLabel(c, m);
   const stats = getMonthStats(activeCommeti, m);
   const mRec = c.records[m] || {};
-  let lines = [`*${c.name} — Month ${m} Status*`, `Pot: Rs. ${c.potValue.toLocaleString()} | Recipient: ${c.recipients[m] || 'TBD'}`, ''];
+  const recName = (c.payouts && c.payouts[m] && c.payouts[m].recipient) || c.recipients[m] || 'TBD';
+  const potDone = Boolean(c.payouts && c.payouts[m] && c.payouts[m].settled);
+  let lines = [
+    `*${c.name} — Month ${m} (${cal}) Status*`,
+    `Pot: Rs. ${c.potValue.toLocaleString()} | Recipient: ${recName} (${potDone ? '✅ Handed Over' : '⏳ Pending'})`,
+    ''
+  ];
   c.members.forEach(mem => {
     const isPaid = mRec[mem.id] && mRec[mem.id].paid;
     lines.push(`${isPaid ? '✅' : '⏳'} ${mem.name}: Rs. ${mem.due.toLocaleString()} (${isPaid ? 'Paid' : 'Pending'})`);
@@ -1350,7 +1830,7 @@ function exportBackup() {
   if (!sessionKey || !state) return;
   const payload = {
     encrypted: true,
-    version: 5,
+    version: 6,
     cipher: encryptStateObj(state, sessionKey)
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
@@ -1369,9 +1849,9 @@ function importBackup(e) {
     try {
       const parsed = JSON.parse(evt.target.result);
       if (parsed.encrypted && parsed.cipher) {
-        state = decryptStateB64(parsed.cipher, sessionKey);
+        state = applyScheduleAndPotUpgrade(decryptStateB64(parsed.cipher, sessionKey));
       } else if (parsed.A1K) {
-        state = parsed;
+        state = applyScheduleAndPotUpgrade(parsed);
       } else {
         throw new Error('Unrecognized backup');
       }
@@ -1422,10 +1902,10 @@ async function pullFromCloud() {
     const res = await fetch(url + '/commeti_vault_enc.json');
     const data = await res.json();
     if (data && data.cipher) {
-      const dec = decryptStateB64(data.cipher, sessionKey);
+      const dec = applyScheduleAndPotUpgrade(decryptStateB64(data.cipher, sessionKey));
       if (dec && dec.A1K) {
         state = dec;
-        localStorage.setItem(STORAGE_ENC_KEY, data.cipher);
+        localStorage.setItem(STORAGE_ENC_KEY, encryptStateObj(state, sessionKey));
         updateHomeBadges();
         if (activeCommeti) renderDetail();
       }
